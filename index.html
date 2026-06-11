@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professor John Sands | Moraine Valley Community College</title>
+    <!-- Tailwind CSS CDN for modern utilities -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons for clean visuals -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        
+        .mono-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #10B981;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #059669;
+        }
+
+        /* Active navigation state styling */
+        .tab-btn.active {
+            border-bottom: 3px solid #10B981;
+            color: #047857;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="bg-[#FAFAFA] text-gray-900 min-h-screen flex flex-col selection:bg-emerald-100 selection:text-emerald-900">
+
+    <!-- Top Banner (Moraine Valley color accents) -->
+    <div class="bg-[#111827] text-white py-2 px-4 text-xs font-semibold tracking-wider uppercase flex justify-between items-center border-b-4 border-emerald-500">
+        <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            Moraine Valley Community College Portal
+        </div>
+        <div class="hidden sm:block">
+            <span>Security Operations & AI Curriculum Platform</span>
+        </div>
+    </div>
+
+    <!-- Main Elegant Navigation Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center gap-4">
+                    <!-- Professional Minimalist Logo -->
+                    <div class="w-12 h-12 bg-black text-white flex items-center justify-center rounded-xl font-bold text-xl border-2 border-emerald-500 shadow-md">
+                        JS
+                    </div>
+                    <div>
+                        <span class="text-xl font-extrabold tracking-tight block text-gray-950 uppercase">John Sands</span>
+                        <span class="text-xs text-emerald-600 font-bold uppercase tracking-widest block -mt-1">Professor & Tech Lead</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation Menu -->
+                <nav class="hidden md:flex items-center gap-6">
+                    <a href="#about" class="text-sm font-semibold text-gray-600 hover:text-emerald-600 transition-colors">Biography</a>
+                    <a href="#courses" class="text-sm font-semibold text-gray-600 hover:text-emerald-600 transition-colors">Courses</a>
+                    <a href="#sandbox" class="text-sm font-semibold text-gray-600 hover:text-emerald-600 transition-colors">Interactive Lab</a>
+                    
+                    <!-- Prominent Link to accounting.html as requested -->
+                    <a href="accounting.html" class="flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm rounded-lg transition-all transform hover:-translate-y-0.5 shadow-md shadow-emerald-600/20">
+                        <i data-lucide="calculator" class="w-4 h-4"></i>
+                        Accounting Module
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </nav>
+
+                <!-- Mobile Menu Icon Button (Directs to important items) -->
+                <div class="flex items-center md:hidden">
+                    <a href="accounting.html" class="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs rounded-md transition-all">
+                        <i data-lucide="calculator" class="w-3.5 h-3.5"></i>
+                        Accounting
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Hero Section / Introduction -->
+    <section class="relative bg-white py-16 border-b border-gray-100 overflow-hidden">
+        <!-- Visual Backdrop Grid Accent -->
+        <div class="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] opacity-40"></div>
+        
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <!-- Left Details -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-800 rounded-full text-xs font-bold uppercase tracking-wider border border-emerald-100">
+                        <i data-lucide="award" class="w-4 h-4 text-emerald-600"></i>
+                        Academic Department Lead
+                    </div>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-950 tracking-tight leading-none">
+                        Empowering students through <span class="text-emerald-600 underline decoration-emerald-500 decoration-wavy underline-offset-4">Interactive Tech</span>.
+                    </h1>
+                    <p class="text-lg text-gray-600 leading-relaxed max-w-2xl">
+                        At <span class="font-bold text-gray-950">Moraine Valley Community College</span>, my classrooms act as experimental sandboxes. I specialize in developing cybersecurity platforms, artificial intelligence architectures, and multidisciplinary quantitative coursework designed for the jobs of tomorrow.
+                    </p>
+
+                    <!-- Profile Highlights -->
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4">
+                        <div class="p-4 bg-gray-50 rounded-xl border border-gray-100">
+                            <span class="block text-2xl font-black text-gray-950">20+</span>
+                            <span class="block text-xs font-bold text-gray-500 uppercase tracking-widest mt-1">Years Teaching</span>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-xl border border-gray-100">
+                            <span class="block text-2xl font-black text-emerald-600">Active</span>
+                            <span class="block text-xs font-bold text-gray-500 uppercase tracking-widest mt-1">Cyber Labs</span>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-xl border border-gray-100 col-span-2 sm:col-span-1">
+                            <span class="block text-2xl font-black text-gray-950">AI-First</span>
+                            <span class="block text-xs font-bold text-gray-500 uppercase tracking-widest mt-1">Curriculum</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Visual Panel / Featured Quick Access -->
+                <div class="lg:col-span-5">
+                    <div class="bg-black text-white rounded-2xl p-6 shadow-2xl border-t-4 border-emerald-500 relative">
+                        <div class="absolute top-4 right-4 bg-emerald-600/20 text-emerald-400 px-2 py-0.5 rounded text-[10px] font-mono tracking-wider uppercase border border-emerald-500/30">
+                            SYSTEM ACTIVE
+                        </div>
+                        <h3 class="text-xl font-bold mb-1 tracking-tight">Department Portal Quick Access</h3>
+                        <p class="text-xs text-gray-400 mb-6">Access interconnected educational modules, dynamic analytical dashboards, and course tracks.</p>
+
+                        <div class="space-y-4">
+                            <!-- Direct CTA to accounting.html inside the featured hero panel -->
+                            <a href="accounting.html" class="group flex items-center justify-between p-4 bg-zinc-900 hover:bg-emerald-950 border border-zinc-800 hover:border-emerald-700/50 rounded-xl transition-all">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+                                        <i data-lucide="trending-up" class="w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <span class="font-semibold text-sm block text-white group-hover:text-emerald-300">Accounting Module</span>
+                                        <span class="text-xs text-gray-400">View Financial Analytics Sandbox</span>
+                                    </div>
+                                </div>
+                                <i data-lucide="chevron-right" class="w-5 h-5 text-gray-500 group-hover:text-emerald-400 transform group-hover:translate-x-1 transition-all"></i>
+                            </a>
+
+                            <a href="#sandbox" class="group flex items-center justify-between p-4 bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 rounded-xl transition-all">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-lg bg-zinc-800 text-gray-300 flex items-center justify-center">
+                                        <i data-lucide="shield-alert" class="w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <span class="font-semibold text-sm block text-white">Cybersecurity Lab</span>
+                                        <span class="text-xs text-gray-400">Interactive Student Decryption Sandbox</span>
+                                    </div>
+                                </div>
+                                <i data-lucide="chevron-right" class="w-5 h-5 text-gray-500 transform group-hover:translate-x-1 transition-all"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Workspace Area -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- Left Side Area - Profile Tabs, Interactive Information Portal (8 Columns) -->
+            <div class="lg:col-span-8 space-y-8">
+                
+                <!-- Dynamic Interactive Tab System -->
+                <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-6">
+                    <div class="border-b border-gray-100 pb-2 mb-6">
+                        <nav class="flex gap-6 overflow-x-auto" aria-label="Tabs">
+                            <button onclick="switchTab('about-tab')" id="btn-about-tab" class="tab-btn active pb-4 text-sm font-semibold tracking-wide text-gray-500 hover:text-emerald-600 transition-all flex items-center gap-2">
+                                <i data-lucide="user" class="w-4 h-4"></i> Biography
+                            </button>
+                            <button onclick="switchTab('courses-tab')" id="btn-courses-tab" class="tab-btn pb-4 text-sm font-semibold tracking-wide text-gray-500 hover:text-emerald-600 transition-all flex items-center gap-2">
+                                <i data-lucide="book-open" class="w-4 h-4"></i> Courses Offered
+                            </button>
+                            <button onclick="switchTab('contact-tab')" id="btn-contact-tab" class="tab-btn pb-4 text-sm font-semibold tracking-wide text-gray-500 hover:text-emerald-600 transition-all flex items-center gap-2">
+                                <i data-lucide="calendar" class="w-4 h-4"></i> Campus Office Info
+                            </button>
+                        </nav>
+                    </div>
+
+                    <!-- TAB CONTENT: About -->
+                    <div id="about-tab" class="tab-content space-y-4">
+                        <h3 class="text-xl font-bold text-gray-950">About Professor John Sands</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Throughout my tenure at Moraine Valley Community College, I have prioritized a teaching model built around applied laboratory scenarios rather than rigid memorization. I believe learning functions best when it feels active, transparent, and engaging.
+                        </p>
+                        <p class="text-gray-600 leading-relaxed">
+                            My background straddles academic research and operational enterprise security. This dual context allows me to adapt quickly to emerging paradigms—integrating practical security models, cloud automation pathways, and applied mathematical metrics seamlessly into academic programming templates.
+                        </p>
+                        <div class="pt-4 border-t border-gray-100 flex items-center justify-between">
+                            <span class="text-xs text-gray-500 italic">Core Fields: Artificial Intelligence &bull; Network Cryptography &bull; Systems Design</span>
+                            <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest flex items-center gap-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Moraine Valley Active Member
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- TAB CONTENT: Courses -->
+                    <div id="courses-tab" class="tab-content hidden space-y-6">
+                        <h3 class="text-xl font-bold text-gray-950">Active Semesters & Course Information</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="p-4 rounded-xl border border-gray-100 bg-gray-50 hover:bg-emerald-50/20 hover:border-emerald-200 transition-all">
+                                <div class="flex justify-between items-start mb-2">
+                                    <span class="px-2 py-0.5 bg-black text-white text-[10px] font-mono rounded tracking-wider uppercase">SEC-101</span>
+                                    <span class="text-xs text-emerald-600 font-bold uppercase tracking-wider">3 Credits</span>
+                                </div>
+                                <h4 class="font-bold text-gray-950 text-base">Introduction to Cybersecurity</h4>
+                                <p class="text-xs text-gray-500 mt-1">Exploring essential networking paradigms, local encryption algorithms, and modern defense strategies.</p>
+                            </div>
+
+                            <div class="p-4 rounded-xl border border-gray-100 bg-gray-50 hover:bg-emerald-50/20 hover:border-emerald-200 transition-all">
+                                <div class="flex justify-between items-start mb-2">
+                                    <span class="px-2 py-0.5 bg-black text-white text-[10px] font-mono rounded tracking-wider uppercase">AI-302</span>
+                                    <span class="text-xs text-emerald-600 font-bold uppercase tracking-wider">4 Credits</span>
+                                </div>
+                                <h4 class="font-bold text-gray-950 text-base">Applied Artificial Intelligence</h4>
+                                <p class="text-xs text-gray-500 mt-1">Practical integration of model checkpoints, natural language structures, and machine learning pipelines.</p>
+                            </div>
+
+                            <div class="p-4 rounded-xl border border-gray-100 bg-gray-50 hover:bg-emerald-50/20 hover:border-emerald-200 transition-all">
+                                <div class="flex justify-between items-start mb-2">
+                                    <span class="px-2 py-0.5 bg-black text-white text-[10px] font-mono rounded tracking-wider uppercase">SYS-210</span>
+                                    <span class="text-xs text-emerald-600 font-bold uppercase tracking-wider">3 Credits</span>
+                                </div>
+                                <h4 class="font-bold text-gray-950 text-base">Systems Engineering</h4>
+                                <p class="text-xs text-gray-500 mt-1">Operating systems, process orchestration, cloud server deployment paradigms and administration.</p>
+                            </div>
+
+                            <!-- Course linked to financial structures -->
+                            <div class="p-4 rounded-xl border-2 border-emerald-100 bg-emerald-50/10 hover:bg-emerald-50/30 transition-all relative">
+                                <div class="absolute top-2 right-2 flex items-center gap-1.5">
+                                    <span class="px-2 py-0.5 bg-emerald-600 text-white text-[10px] font-bold rounded tracking-wider uppercase">ACCT-110</span>
+                                </div>
+                                <h4 class="font-bold text-gray-950 text-base mt-2">Accounting Integrations</h4>
+                                <p class="text-xs text-gray-500 mt-1">Collaborative system examining financial database design, ledger accuracy, and software interfaces.</p>
+                                <a href="accounting.html" class="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 hover:text-emerald-900 mt-3 transition-colors">
+                                    Launch Accounting Board <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB CONTENT: Contact / Office Hours -->
+                    <div id="contact-tab" class="tab-content hidden space-y-4">
+                        <h3 class="text-xl font-bold text-gray-950">Campus Office Availability</h3>
+                        <p class="text-gray-600">Please feel free to drop by during scheduled times or book directly using my email schedule portal details.</p>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                            <div class="p-4 rounded-xl bg-gray-50 border border-gray-150">
+                                <span class="block text-xs font-bold text-emerald-600 uppercase tracking-widest mb-1">Office Location</span>
+                                <span class="font-bold text-gray-950 block text-base">Building T, Suite 204B</span>
+                                <span class="text-xs text-gray-500">Moraine Valley Community College</span>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-gray-50 border border-gray-150">
+                                <span class="block text-xs font-bold text-emerald-600 uppercase tracking-widest mb-1">Office Hours</span>
+                                <span class="font-bold text-gray-950 block text-base">Mon & Wed: 10AM - 12PM</span>
+                                <span class="text-xs text-gray-500">Tues & Thurs: By Appointment</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DYNAMIC APPLICATION: Interactive Cryptographic Decryption Sandbox -->
+                <div id="sandbox" class="bg-black text-white border border-zinc-800 rounded-2xl shadow-xl overflow-hidden">
+                    <div class="p-6 border-b border-zinc-800 flex justify-between items-center bg-zinc-950">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center border border-emerald-500/20">
+                                <i data-lucide="terminal" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-base leading-tight">Cybersecurity Classroom Sandbox</h3>
+                                <p class="text-xs text-zinc-400">Embedded simulator teaching decryption algorithms</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-1">
+                            <span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-yellow-500"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                        </div>
+                    </div>
+
+                    <div class="p-6 space-y-6">
+                        <div>
+                            <label class="block text-xs font-bold text-emerald-500 uppercase tracking-widest mb-2">1. Choose Cryptography Algorithm</label>
+                            <div class="grid grid-cols-3 gap-2">
+                                <button onclick="selectAlgo('caesar')" id="algo-caesar" class="algo-btn px-4 py-2.5 bg-zinc-900 border-2 border-emerald-500 text-emerald-400 text-xs font-bold tracking-wide uppercase rounded-lg transition-all flex items-center justify-center gap-2">
+                                    Caesar Cipher
+                                </button>
+                                <button onclick="selectAlgo('binary')" id="algo-binary" class="algo-btn px-4 py-2.5 bg-zinc-900 border-2 border-transparent text-zinc-400 text-xs font-bold tracking-wide uppercase rounded-lg transition-all hover:bg-zinc-850 flex items-center justify-center gap-2">
+                                    Binary Code
+                                </button>
+                                <button onclick="selectAlgo('reverse')" id="algo-reverse" class="algo-btn px-4 py-2.5 bg-zinc-900 border-2 border-transparent text-zinc-400 text-xs font-bold tracking-wide uppercase rounded-lg transition-all hover:bg-zinc-850 flex items-center justify-center gap-2">
+                                    Reverse Cipher
+                                </button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <label for="sandbox-input" class="text-xs font-bold text-emerald-500 uppercase tracking-widest">2. Input Message</label>
+                                <span class="text-[10px] text-zinc-400 font-mono" id="char-count">0 Characters</span>
+                            </div>
+                            <input type="text" id="sandbox-input" value="Welcome to Cybersecurity at MVCC" oninput="runSandboxSimulation()" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-3 text-sm text-zinc-100 placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 mono-font">
+                        </div>
+
+                        <!-- Decryption Terminal Interface Box -->
+                        <div class="bg-zinc-950 border border-zinc-850 rounded-xl p-4 space-y-3 relative overflow-hidden">
+                            <span class="absolute top-2 right-3 text-[9px] text-emerald-500/40 font-mono tracking-widest">LIVE TRANSLATION</span>
+                            
+                            <div>
+                                <span class="text-[10px] text-zinc-500 font-bold uppercase tracking-wider block mb-1">Standard Text Stream:</span>
+                                <div id="stream-input" class="text-sm font-mono text-zinc-300">Welcome to Cybersecurity at MVCC</div>
+                            </div>
+                            
+                            <hr class="border-zinc-900 my-2">
+
+                            <div>
+                                <span class="text-[10px] text-emerald-500 font-bold uppercase tracking-wider block mb-1">Encrypted Payload Output:</span>
+                                <div id="stream-output" class="text-base font-mono text-emerald-400 font-bold break-all">Zhofrph wr Fbehuvhfxulwb dw pyff</div>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <p class="text-xs text-zinc-500">Interested in system interactions and complex mathematical systems? Check out our accounting models.</p>
+                            <a href="accounting.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-400 hover:text-emerald-300 mt-2 hover:underline">
+                                Go to Accounting File Page <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right Side Area: Quick Contacts & Institution Info (4 Columns) -->
+            <div class="lg:col-span-4 space-y-6">
+                
+                <!-- Quick Contact Card -->
+                <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-6 space-y-6">
+                    <h3 class="text-lg font-bold text-gray-950 flex items-center gap-2">
+                        <i data-lucide="contact" class="text-emerald-600 w-5 h-5"></i>
+                        Contact Directory
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3">
+                            <div class="p-2 bg-emerald-50 text-emerald-700 rounded-lg">
+                                <i data-lucide="mail" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <span class="block text-xs font-bold text-gray-400 uppercase tracking-wider">Email Address</span>
+                                <span class="text-sm font-bold text-gray-900 hover:text-emerald-600 cursor-pointer block mt-0.5">sands@morainevalley.edu</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-3">
+                            <div class="p-2 bg-emerald-50 text-emerald-700 rounded-lg">
+                                <i data-lucide="phone" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <span class="block text-xs font-bold text-gray-400 uppercase tracking-wider">Office Phone</span>
+                                <span class="text-sm font-bold text-gray-900 block mt-0.5">(708) 974-5000</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-3">
+                            <div class="p-2 bg-emerald-50 text-emerald-700 rounded-lg">
+                                <i data-lucide="map-pin" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <span class="block text-xs font-bold text-gray-400 uppercase tracking-wider">Mailing Address</span>
+                                <span class="text-xs font-semibold text-gray-600 block mt-0.5">
+                                    9000 W. College Pkwy<br>Palos Hills, IL 60465
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Custom Simulated "Leave a Note" Box -->
+                    <div class="border-t border-gray-100 pt-4">
+                        <span class="block text-xs font-bold text-gray-950 uppercase tracking-wider mb-2">Leave a Digital Memo</span>
+                        <div class="space-y-2">
+                            <textarea id="student-memo" placeholder="Leave a short question for Dr. Sands..." rows="2" class="w-full text-xs p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500"></textarea>
+                            <button onclick="submitStudentMemo()" class="w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs py-2 rounded-lg transition-colors">
+                                Submit Memo
+                            </button>
+                            <p id="memo-status" class="text-[10px] text-center hidden"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Moraine Valley Institution Information Badge Card -->
+                <div class="bg-[#111827] text-white rounded-2xl p-6 relative overflow-hidden shadow-md">
+                    <!-- Top subtle pattern -->
+                    <div class="absolute -right-12 -bottom-12 w-32 h-32 bg-emerald-600/10 rounded-full blur-xl"></div>
+                    
+                    <h4 class="text-xs font-bold text-emerald-400 tracking-widest uppercase mb-2">INSTITUTION PARTNER</h4>
+                    <span class="block font-black text-xl leading-tight mb-2">Moraine Valley Community College</span>
+                    <p class="text-xs text-zinc-400 leading-relaxed mb-4">
+                        Moraine Valley is fully accredited by the Higher Learning Commission and provides stellar educational pipelines to state-of-the-art corporate partners.
+                    </p>
+                    
+                    <a href="https://www.morainevalley.edu" target="_blank" rel="noopener noreferrer" class="text-xs font-bold text-white hover:text-emerald-400 transition-colors inline-flex items-center gap-1">
+                        Visit Main MVCC Website <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#111827] text-white border-t border-zinc-800 mt-16 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                
+                <div class="text-center md:text-left">
+                    <span class="block font-black text-lg tracking-tight">PROFESSOR JOHN SANDS</span>
+                    <span class="text-xs text-emerald-400 tracking-wider font-semibold block uppercase">Moraine Valley Community College</span>
+                </div>
+
+                <div class="flex items-center gap-6 text-sm text-zinc-400">
+                    <a href="#about" class="hover:text-white transition-colors">Biography</a>
+                    <a href="#courses" class="hover:text-white transition-colors">Courses</a>
+                    <a href="#sandbox" class="hover:text-white transition-colors font-bold text-emerald-400">Classroom Simulator</a>
+                    <a href="accounting.html" class="px-3 py-1 bg-zinc-900 border border-emerald-500 rounded text-emerald-400 hover:text-white hover:bg-emerald-600 transition-all font-mono text-xs">
+                        accounting.html
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="border-t border-zinc-900 mt-8 pt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-zinc-500">
+                <p>&copy; 2026 John Sands. All rights reserved. Materials hosted for educational instruction.</p>
+                <div class="flex gap-4 mt-4 sm:mt-0">
+                    <span>Designed for MVCC Classrooms</span>
+                    <span>&bull;</span>
+                    <span>Cybersecurity & AI Lab Standard</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript to manage dynamic elements -->
+    <script>
+        // Track the actively selected Sandbox encryption algorithm
+        let currentAlgorithm = 'caesar';
+
+        // Set initial lucide icons
+        window.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            runSandboxSimulation(); // Run simulator once initially to load output
+        });
+
+        // Tab Switching Logic
+        function switchTab(tabId) {
+            // Hide all tab components
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.add('hidden');
+            });
+            // Show target component
+            document.getElementById(tabId).classList.remove('hidden');
+
+            // Deactivate all button styles
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            // Activate current button style
+            document.getElementById(`btn-${tabId}`).classList.add('active');
+        }
+
+        // Sandbox Simulator Encryption Algorithms
+        function selectAlgo(algoName) {
+            currentAlgorithm = algoName;
+            
+            // Highlight matching button, clear others
+            document.querySelectorAll('.algo-btn').forEach(btn => {
+                btn.classList.remove('border-emerald-500', 'text-emerald-400');
+                btn.classList.add('border-transparent', 'text-zinc-400');
+            });
+
+            const activeBtn = document.getElementById(`algo-${algoName}`);
+            activeBtn.classList.remove('border-transparent', 'text-zinc-400');
+            activeBtn.classList.add('border-emerald-500', 'text-emerald-400');
+
+            runSandboxSimulation();
+        }
+
+        function runSandboxSimulation() {
+            const rawInput = document.getElementById('sandbox-input').value;
+            const inputCountSpan = document.getElementById('char-count');
+            const streamInputDiv = document.getElementById('stream-input');
+            const streamOutputDiv = document.getElementById('stream-output');
+
+            // Set character counter
+            inputCountSpan.textContent = `${rawInput.length} Characters`;
+            
+            // Set input stream preview
+            streamInputDiv.textContent = rawInput || "[Empty Message]";
+
+            if (!rawInput) {
+                streamOutputDiv.textContent = "[Awakening Cipher Payload...]";
+                return;
+            }
+
+            let encryptedText = '';
+
+            if (currentAlgorithm === 'caesar') {
+                // Shift letters by 3 positions
+                encryptedText = rawInput.split('').map(char => {
+                    const code = char.charCodeAt(0);
+                    // Encrypt uppercase
+                    if (code >= 65 && code <= 90) {
+                        return String.fromCharCode(((code - 65 + 3) % 26) + 65);
+                    }
+                    // Encrypt lowercase
+                    if (code >= 97 && code <= 122) {
+                        return String.fromCharCode(((code - 97 + 3) % 26) + 97);
+                    }
+                    return char; // Non-alphabetic intact
+                }).join('');
+
+            } else if (currentAlgorithm === 'binary') {
+                // Convert to Binary presentation stream
+                encryptedText = rawInput.split('').map(char => {
+                    return char.charCodeAt(0).toString(2).padStart(8, '0');
+                }).join(' ');
+
+            } else if (currentAlgorithm === 'reverse') {
+                // Standard reverse output text simulation
+                encryptedText = rawInput.split('').reverse().join('');
+            }
+
+            streamOutputDiv.textContent = encryptedText;
+        }
+
+        // Memo box mock interaction (No alerts allowed)
+        function submitStudentMemo() {
+            const textarea = document.getElementById('student-memo');
+            const status = document.getElementById('memo-status');
+            
+            if (textarea.value.trim() === '') {
+                status.textContent = 'Please write down a quick message first.';
+                status.className = 'text-xs text-center text-red-500 block mt-2';
+                return;
+            }
+
+            status.textContent = 'Message buffered! Thank you. I will reply via your student profile email.';
+            status.className = 'text-xs text-center text-emerald-500 font-bold block mt-2';
+            textarea.value = '';
+
+            setTimeout(() => {
+                status.classList.add('hidden');
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
