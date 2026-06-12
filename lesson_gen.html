@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson Prompt Generator · Dr. John Sands</title>
+<style>
+  /* ── Tokens ─────────────────────────────────────────── */
+  :root {
+    --ink:        #1a1f2e;
+    --ink-soft:   #4a5168;
+    --ink-muted:  #8a91a8;
+    --bg:         #f5f6fa;
+    --surface:    #ffffff;
+    --border:     #dde0eb;
+    --accent:     #2d5be3;
+    --accent-dk:  #1e3fa8;
+    --accent-lt:  #eef2fd;
+    --green:      #1d8a5e;
+    --green-lt:   #e8f6f1;
+    --amber:      #b45309;
+    --amber-lt:   #fef3e2;
+    --tag-bg:     #e8ebf7;
+    --radius:     10px;
+    --radius-sm:  6px;
+    --shadow:     0 2px 12px rgba(26,31,46,.08);
+    --shadow-md:  0 4px 24px rgba(26,31,46,.13);
+    --font-ui:    'Segoe UI', system-ui, -apple-system, sans-serif;
+    --font-mono:  'Consolas', 'Courier New', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-ui);
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ── Header ──────────────────────────────────────────── */
+  header {
+    background: var(--ink);
+    color: #fff;
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 58px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: .01em;
+  }
+  .header-brand .dot {
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .header-sub {
+    font-size: 12px;
+    color: #8a91a8;
+    font-weight: 400;
+  }
+  .header-badge {
+    font-size: 11px;
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.15);
+    padding: 3px 10px;
+    border-radius: 20px;
+    color: #cdd1e0;
+  }
+
+  /* ── Layout ──────────────────────────────────────────── */
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 28px 24px 48px;
+  }
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+  }
+
+  /* ── Panel ───────────────────────────────────────────── */
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .panel-header {
+    padding: 16px 22px 14px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .panel-header h2 {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+  .panel-icon {
+    width: 28px; height: 28px;
+    border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .pi-blue  { background: var(--accent-lt); color: var(--accent); }
+  .pi-green { background: var(--green-lt);  color: var(--green);  }
+  .panel-body { padding: 20px 22px; }
+
+  /* ── Form ────────────────────────────────────────────── */
+  .form-section {
+    margin-bottom: 22px;
+  }
+  .form-section:last-child { margin-bottom: 0; }
+
+  label, .field-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 7px;
+  }
+  .field-hint {
+    font-size: 11.5px;
+    color: var(--ink-muted);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    margin-left: 4px;
+  }
+
+  input[type="text"], textarea, select {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 9px 12px;
+    font-family: var(--font-ui);
+    font-size: 14px;
+    color: var(--ink);
+    background: #fafbff;
+    transition: border-color .15s, box-shadow .15s;
+    outline: none;
+  }
+  input[type="text"]:focus, textarea:focus, select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(45,91,227,.12);
+    background: #fff;
+  }
+  textarea { resize: vertical; min-height: 72px; }
+
+  /* Tag input */
+  .tag-input-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 7px 10px;
+    background: #fafbff;
+    min-height: 44px;
+    cursor: text;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .tag-input-wrap:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(45,91,227,.12);
+    background: #fff;
+  }
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--tag-bg);
+    color: var(--accent-dk);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 8px 3px 9px;
+    border-radius: 4px;
+  }
+  .tag-remove {
+    background: none; border: none; cursor: pointer;
+    color: var(--ink-muted); font-size: 14px; line-height: 1;
+    padding: 0; display: flex; align-items: center;
+  }
+  .tag-remove:hover { color: #c0392b; }
+  .tag-text-input {
+    border: none; outline: none; background: transparent;
+    font-size: 13px; color: var(--ink); min-width: 80px;
+    flex: 1;
+    font-family: var(--font-ui);
+  }
+
+  /* Checkbox group */
+  .check-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 9px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+    user-select: none;
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+  .check-item input { display: none; }
+  .check-box {
+    width: 18px; height: 18px;
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    background: #fff;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .15s, border-color .15s;
+    font-size: 11px;
+    color: transparent;
+  }
+  .check-item.active {
+    border-color: var(--accent);
+    background: var(--accent-lt);
+    color: var(--accent-dk);
+  }
+  .check-item.active .check-box {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  /* Toggle */
+  .toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+    user-select: none;
+  }
+  .toggle-row:last-child { margin-bottom: 0; }
+  .toggle-row.active {
+    border-color: var(--green);
+    background: var(--green-lt);
+  }
+  .toggle-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+  .toggle-row.active .toggle-label { color: var(--green); }
+  .toggle-pill {
+    width: 38px; height: 22px;
+    background: var(--border);
+    border-radius: 11px;
+    position: relative;
+    transition: background .2s;
+    flex-shrink: 0;
+  }
+  .toggle-row.active .toggle-pill { background: var(--green); }
+  .toggle-knob {
+    position: absolute;
+    width: 16px; height: 16px;
+    background: #fff;
+    border-radius: 50%;
+    top: 3px; left: 3px;
+    transition: transform .2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,.2);
+  }
+  .toggle-row.active .toggle-knob { transform: translateX(16px); }
+
+  /* Divider */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 20px 0;
+  }
+
+  /* Select styled */
+  select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a91a8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+  }
+
+  /* ── Preview Panel ───────────────────────────────────── */
+  .preview-sticky {
+    position: sticky;
+    top: 78px;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .prompt-box {
+    background: #1a1f2e;
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    position: relative;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    line-height: 1.75;
+    color: #c9cfe0;
+    white-space: pre-wrap;
+    word-break: break-word;
+    min-height: 200px;
+    max-height: 480px;
+    overflow-y: auto;
+    border: 1px solid rgba(255,255,255,.06);
+    box-shadow: var(--shadow-md);
+  }
+  .prompt-box .ph { color: #4a5168; font-style: italic; }
+  .prompt-box .key  { color: #7eb8f7; font-weight: 700; }
+  .prompt-box .val  { color: #a8e6cf; }
+  .prompt-box .sec  { color: #f7c948; font-weight: 600; }
+
+  .copy-bar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 18px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: transform .1s, opacity .15s;
+    font-family: var(--font-ui);
+  }
+  .btn:active { transform: scale(.97); }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+  }
+  .btn-primary:hover { background: var(--accent-dk); }
+  .btn-ghost {
+    background: var(--surface);
+    color: var(--ink-soft);
+    border: 1px solid var(--border);
+  }
+  .btn-ghost:hover { background: var(--bg); }
+  .btn-green {
+    background: var(--green);
+    color: #fff;
+  }
+  .btn-green:hover { opacity: .88; }
+
+  .copy-toast {
+    display: none;
+    font-size: 12px;
+    color: var(--green);
+    font-weight: 600;
+    align-items: center;
+    gap: 5px;
+    margin-top: 4px;
+  }
+  .copy-toast.show { display: flex; }
+
+  .stats-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .stat-chip {
+    font-size: 11.5px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 12px;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+  .stat-chip strong { color: var(--accent); }
+
+  /* ── Platform Buttons ────────────────────────────────── */
+  .platforms {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 14px 22px;
+    border-top: 1px solid var(--border);
+    background: var(--bg);
+    align-items: center;
+  }
+  .plat-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-right: 4px;
+  }
+  .plat-btn {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 13px;
+    border-radius: 20px;
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: border-color .15s, color .15s, background .15s;
+    font-family: var(--font-ui);
+  }
+  .plat-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-lt);
+  }
+
+  /* ── Progress bar ────────────────────────────────────── */
+  .progress-wrap {
+    padding: 10px 22px 12px;
+    border-bottom: 1px solid var(--border);
+    background: #fafbff;
+  }
+  .progress-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--ink-muted);
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .progress-bar {
+    height: 5px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), #7b9ff7);
+    border-radius: 3px;
+    transition: width .4s ease;
+    width: 0%;
+  }
+
+  /* ── Scrollbar ───────────────────────────────────────── */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-brand">
+    <div class="dot"></div>
+    <div>
+      Lesson Prompt Generator
+      <span class="header-sub"> · Dr. John Sands · MVCC</span>
+    </div>
+  </div>
+  <span class="header-badge">AI-Assisted Course Design</span>
+</header>
+
+<div class="layout">
+
+  <!-- ════ LEFT: FORM ════ -->
+  <div>
+
+    <!-- Panel 1: Core Info -->
+    <div class="panel" style="margin-bottom:20px">
+      <div class="panel-header">
+        <div class="panel-icon pi-blue">📋</div>
+        <h2>Lesson Basics</h2>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-label">
+          <span>Fields completed</span>
+          <span id="prog-pct">0%</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
+      </div>
+      <div class="panel-body">
+
+        <div class="form-section">
+          <label for="lesson-title">Lesson Title <span class="field-hint">required</span></label>
+          <input type="text" id="lesson-title" placeholder="e.g., Introduction to Zero Trust Architecture" oninput="updatePrompt()">
+        </div>
+
+        <div class="form-section">
+          <label for="audience">Target Audience</label>
+          <select id="audience" onchange="updatePrompt()">
+            <option value="">— Select audience —</option>
+            <option>Community college students (general)</option>
+            <option>Cybersecurity students (introductory)</option>
+            <option>Cybersecurity students (advanced)</option>
+            <option>Networking / IT students</option>
+            <option>AI / Data Science students</option>
+            <option>Electronics / Engineering students</option>
+            <option>Faculty / Professional development</option>
+            <option>Working IT professionals</option>
+            <option>Defense contractor workforce</option>
+            <option>Non-technical adult learners</option>
+          </select>
+        </div>
+
+        <div class="form-section">
+          <label for="lesson-level">Bloom's Taxonomy Level</label>
+          <select id="lesson-level" onchange="updatePrompt()">
+            <option value="">— Select cognitive level —</option>
+            <option>Remember – recall facts and basic concepts</option>
+            <option>Understand – explain ideas and concepts</option>
+            <option>Apply – use knowledge in new situations</option>
+            <option>Analyze – draw connections among ideas</option>
+            <option>Evaluate – justify decisions and appraise</option>
+            <option>Create – produce new work or synthesis</option>
+          </select>
+        </div>
+
+        <div class="form-section">
+          <label for="duration">Estimated Duration</label>
+          <select id="duration" onchange="updatePrompt()">
+            <option value="">— Select duration —</option>
+            <option>15–20 minutes (micro-lesson)</option>
+            <option>30–45 minutes (module)</option>
+            <option>50–75 minutes (one class period)</option>
+            <option>2–3 hours (extended lab / workshop)</option>
+            <option>Multi-session (spread across classes)</option>
+          </select>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Panel 2: Content -->
+    <div class="panel" style="margin-bottom:20px">
+      <div class="panel-header">
+        <div class="panel-icon pi-blue">🎯</div>
+        <h2>Learning Content</h2>
+      </div>
+      <div class="panel-body">
+
+        <div class="form-section">
+          <label>Learning Objectives <span class="field-hint">press Enter to add each</span></label>
+          <div class="tag-input-wrap" id="obj-wrap" onclick="document.getElementById('obj-input').focus()">
+            <input type="text" class="tag-text-input" id="obj-input" placeholder="Type an objective and press Enter…" onkeydown="handleTag(event,'objectives')">
+          </div>
+        </div>
+
+        <div class="form-section">
+          <label>Topics Covered <span class="field-hint">press Enter to add each</span></label>
+          <div class="tag-input-wrap" id="topics-wrap" onclick="document.getElementById('topics-input').focus()">
+            <input type="text" class="tag-text-input" id="topics-input" placeholder="e.g., CIA Triad, Threat Modeling…" onkeydown="handleTag(event,'topics')">
+          </div>
+        </div>
+
+        <div class="form-section">
+          <label>Key Terms / Vocabulary <span class="field-hint">press Enter to add each</span></label>
+          <div class="tag-input-wrap" id="terms-wrap" onclick="document.getElementById('terms-input').focus()">
+            <input type="text" class="tag-text-input" id="terms-input" placeholder="e.g., Zero Trust, MFA, SIEM…" onkeydown="handleTag(event,'terms')">
+          </div>
+        </div>
+
+        <div class="form-section">
+          <label for="standards">Standards / Frameworks Alignment <span class="field-hint">optional</span></label>
+          <input type="text" id="standards" placeholder="e.g., NIST SP 800-171, CompTIA Security+ SY0-701, NSF ATE" oninput="updatePrompt()">
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Panel 3: Instructional Design -->
+    <div class="panel" style="margin-bottom:20px">
+      <div class="panel-header">
+        <div class="panel-icon pi-blue">🧩</div>
+        <h2>Instructional Design</h2>
+      </div>
+      <div class="panel-body">
+
+        <div class="form-section">
+          <div class="field-label">Activity Types <span class="field-hint">select all that apply</span></div>
+          <div class="check-grid" id="activity-grid">
+            <label class="check-item" onclick="toggleCheck(this)">
+              <input type="checkbox" value="interactive learning activities">
+              <span class="check-box">✓</span>
+              <span>Interactive Activities</span>
+            </label>
+            <label class="check-item" onclick="toggleCheck(this)">
+              <input type="checkbox" value="team / collaborative projects">
+              <span class="check-box">✓</span>
+              <span>Team Projects</span>
+            </label>
+            <label class="check-item" onclick="toggleCheck(this)">
+              <input type="checkbox" value="real-world case studies">
+              <span class="check-box">✓</span>
+              <span>Case Studies</span>
+            </label>
+            <label class="check-item" onclick="toggleCheck(this)">
+              <input type="checkbox" value="hands-on labs / simulations">
+              <span class="check-box">✓</span>
+              <span>Labs / Simulations</span>
+            </label>
+            <label class="check-item" onclick="toggleCheck(this)">
+              <input type="checkbox" value="formative and summative assessments">
+              <span class="check-box">✓</span>
+              <span>Assessments</span>
+            </label>
+            <label class="check-item" onclick="toggleCheck(this)">
+              <input type="checkbox" value="discussion prompts / Socratic questioning">
+              <span class="check-box">✓</span>
+              <span>Discussion Prompts</span>
+            </label>
+            <label class="check-item" onclick="toggleCheck(this)">
+              <input type="checkbox" value="scenario-based problem solving">
+              <span class="check-box">✓</span>
+              <span>Scenario Problems</span>
+            </label>
+            <label class="check-item" onclick="toggleCheck(this)">
+              <input type="checkbox" value="self-paced review and reflection">
+              <span class="check-box">✓</span>
+              <span>Self-Paced Review</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="form-section">
+          <div class="field-label">Delivery Format</div>
+          <select id="delivery" onchange="updatePrompt()">
+            <option value="">— Select format —</option>
+            <option>In-person / face-to-face classroom</option>
+            <option>Online asynchronous (self-paced)</option>
+            <option>Online synchronous (live virtual)</option>
+            <option>Hybrid / HyFlex</option>
+            <option>Interactive HTML5 lesson page</option>
+            <option>Slide deck (PowerPoint / Google Slides)</option>
+          </select>
+        </div>
+
+        <div class="form-section">
+          <label for="prior-knowledge">Assumed Prior Knowledge <span class="field-hint">optional</span></label>
+          <input type="text" id="prior-knowledge" placeholder="e.g., Familiarity with TCP/IP, basic command line" oninput="updatePrompt()">
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Panel 4: Accessibility & Enhancements -->
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-icon pi-green">♿</div>
+        <h2>Accessibility &amp; Enhancements</h2>
+      </div>
+      <div class="panel-body">
+
+        <div class="form-section">
+          <div class="field-label">ADA / Accessibility Requirements</div>
+          <div id="ada-toggles">
+            <div class="toggle-row" onclick="toggleRow(this)" data-val="WCAG 2.1 AA compliance for all digital content">
+              <span class="toggle-label">WCAG 2.1 AA compliance</span>
+              <div class="toggle-pill"><div class="toggle-knob"></div></div>
+            </div>
+            <div class="toggle-row" onclick="toggleRow(this)" data-val="screen reader–friendly content structure with semantic headings and alt text">
+              <span class="toggle-label">Screen reader–friendly structure</span>
+              <div class="toggle-pill"><div class="toggle-knob"></div></div>
+            </div>
+            <div class="toggle-row" onclick="toggleRow(this)" data-val="closed captions or transcripts for all multimedia">
+              <span class="toggle-label">Captions / transcripts for media</span>
+              <div class="toggle-pill"><div class="toggle-knob"></div></div>
+            </div>
+            <div class="toggle-row" onclick="toggleRow(this)" data-val="keyboard-navigable interactive elements (no mouse dependency)">
+              <span class="toggle-label">Keyboard navigation only</span>
+              <div class="toggle-pill"><div class="toggle-knob"></div></div>
+            </div>
+            <div class="toggle-row" onclick="toggleRow(this)" data-val="high-contrast color scheme with accessible font sizes (min 16px body)">
+              <span class="toggle-label">High contrast &amp; accessible font sizes</span>
+              <div class="toggle-pill"><div class="toggle-knob"></div></div>
+            </div>
+            <div class="toggle-row" onclick="toggleRow(this)" data-val="plain-language writing at a 10th-grade reading level or below">
+              <span class="toggle-label">Plain-language / 10th-grade reading level</span>
+              <div class="toggle-pill"><div class="toggle-knob"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="form-section">
+          <div class="field-label">Analogies &amp; Real-World Examples</div>
+          <div id="analogy-toggles">
+            <div class="toggle-row" onclick="toggleRow(this)" data-val="include at least 2 concrete real-world analogies to clarify abstract concepts">
+              <span class="toggle-label">Real-world analogies (min. 2)</span>
+              <div class="toggle-pill"><div class="toggle-knob"></div></div>
+            </div>
+            <div class="toggle-row" onclick="toggleRow(this)" data-val="ground examples in current industry news or documented incidents (last 3 years)">
+              <span class="toggle-label">Current industry incidents / news</span>
+              <div class="toggle-pill"><div class="toggle-knob"></div></div>
+            </div>
+            <div class="toggle-row" onclick="toggleRow(this)" data-val="connect content to everyday student experiences (apps, social media, banking)">
+              <span class="toggle-label">Connect to everyday student experiences</span>
+              <div class="toggle-pill"><div class="toggle-knob"></div></div>
+            </div>
+            <div class="toggle-row" onclick="toggleRow(this)" data-val="use workplace/career-relevant scenarios to motivate learning">
+              <span class="toggle-label">Workplace / career-relevant scenarios</span>
+              <div class="toggle-pill"><div class="toggle-knob"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="form-section">
+          <label for="extra-notes">Additional Instructions <span class="field-hint">optional — anything else for the AI</span></label>
+          <textarea id="extra-notes" placeholder="e.g., Keep tone conversational. Include a 10-question multiple-choice quiz at the end. Follow CompTIA Security+ SY0-701 objectives." oninput="updatePrompt()"></textarea>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /left -->
+
+  <!-- ════ RIGHT: PREVIEW ════ -->
+  <div class="preview-sticky">
+
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-icon pi-blue">✨</div>
+        <h2>Generated Prompt</h2>
+      </div>
+      <div class="panel-body" style="padding-bottom:14px">
+        <div class="prompt-box" id="prompt-output"><span class="ph">← Fill in the form to build your prompt. It will appear here in real time.</span></div>
+
+        <div class="stats-row" style="margin-top:12px" id="stats-row"></div>
+
+        <div class="copy-bar" style="margin-top:14px">
+          <button class="btn btn-primary" onclick="copyPrompt()">📋 Copy Prompt</button>
+          <button class="btn btn-ghost" onclick="clearAll()">🗑 Clear All</button>
+          <button class="btn btn-green" onclick="downloadPrompt()">⬇ Save .txt</button>
+        </div>
+        <div class="copy-toast" id="copy-toast">✅ Copied to clipboard!</div>
+      </div>
+
+      <div class="platforms">
+        <span class="plat-label">Open in:</span>
+        <button class="plat-btn" onclick="openIn('https://claude.ai')">Claude</button>
+        <button class="plat-btn" onclick="openIn('https://chat.openai.com')">ChatGPT</button>
+        <button class="plat-btn" onclick="openIn('https://gemini.google.com')">Gemini</button>
+        <button class="plat-btn" onclick="openIn('https://copilot.microsoft.com')">Copilot</button>
+        <button class="plat-btn" onclick="openIn('https://www.perplexity.ai')">Perplexity</button>
+      </div>
+    </div>
+
+    <!-- Quick-start templates -->
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-icon pi-blue">⚡</div>
+        <h2>Quick-Start Templates</h2>
+      </div>
+      <div class="panel-body" style="display:flex;flex-direction:column;gap:8px">
+        <button class="btn btn-ghost" style="justify-content:flex-start;font-size:13px" onclick="loadTemplate('secplus')">🔐 CompTIA Security+ Lesson</button>
+        <button class="btn btn-ghost" style="justify-content:flex-start;font-size:13px" onclick="loadTemplate('cmmc')">🏛 CMMC 2.0 Compliance Lab</button>
+        <button class="btn btn-ghost" style="justify-content:flex-start;font-size:13px" onclick="loadTemplate('aifund')">🤖 AI Fundamentals for Educators</button>
+        <button class="btn btn-ghost" style="justify-content:flex-start;font-size:13px" onclick="loadTemplate('networking')">🌐 Networking / Protocol Lesson</button>
+        <button class="btn btn-ghost" style="justify-content:flex-start;font-size:13px" onclick="loadTemplate('electronics')">⚡ Electronics / Digital Circuits</button>
+      </div>
+    </div>
+
+  </div><!-- /right -->
+
+</div><!-- /layout -->
+
+<script>
+// ── State ──────────────────────────────────────────────────
+const tags = { objectives: [], topics: [], terms: [] };
+
+// ── Tag Input ──────────────────────────────────────────────
+function handleTag(e, key) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    const input = e.target;
+    const val = input.value.trim();
+    if (!val) return;
+    tags[key].push(val);
+    input.value = '';
+    renderTags(key);
+    updatePrompt();
+  }
+}
+
+function renderTags(key) {
+  const wrap = document.getElementById(key === 'objectives' ? 'obj-wrap' : key === 'topics' ? 'topics-wrap' : 'terms-wrap');
+  const inputId = key === 'objectives' ? 'obj-input' : key === 'topics' ? 'topics-input' : 'terms-input';
+  const input = document.getElementById(inputId);
+  // Remove existing tags
+  wrap.querySelectorAll('.tag').forEach(t => t.remove());
+  tags[key].forEach((val, i) => {
+    const tag = document.createElement('span');
+    tag.className = 'tag';
+    tag.innerHTML = `${val}<button class="tag-remove" onclick="removeTag('${key}',${i})">×</button>`;
+    wrap.insertBefore(tag, input);
+  });
+}
+
+function removeTag(key, i) {
+  tags[key].splice(i, 1);
+  renderTags(key);
+  updatePrompt();
+}
+
+// ── Checkbox toggle ────────────────────────────────────────
+function toggleCheck(el) {
+  el.classList.toggle('active');
+  el.querySelector('input').checked = el.classList.contains('active');
+  updatePrompt();
+}
+
+// ── Toggle rows ────────────────────────────────────────────
+function toggleRow(el) {
+  el.classList.toggle('active');
+  updatePrompt();
+}
+
+// ── Collect form data ──────────────────────────────────────
+function collect() {
+  const title      = v('lesson-title');
+  const audience   = v('audience');
+  const level      = v('lesson-level');
+  const duration   = v('duration');
+  const delivery   = v('delivery');
+  const prior      = v('prior-knowledge');
+  const standards  = v('standards');
+  const extra      = v('extra-notes');
+
+  const activities = [...document.querySelectorAll('#activity-grid .check-item.active')]
+    .map(el => el.querySelector('input').value);
+
+  const ada = [...document.querySelectorAll('#ada-toggles .toggle-row.active')]
+    .map(el => el.dataset.val);
+
+  const analogies = [...document.querySelectorAll('#analogy-toggles .toggle-row.active')]
+    .map(el => el.dataset.val);
+
+  return { title, audience, level, duration, delivery, prior, standards, extra, activities, ada, analogies };
+}
+
+function v(id) { return document.getElementById(id).value.trim(); }
+
+// ── Build prompt text ──────────────────────────────────────
+function buildPrompt(d) {
+  if (!d.title && !tags.objectives.length && !tags.topics.length) return null;
+
+  let p = '';
+  const h = (t) => `\n━━━ ${t.toUpperCase()} ━━━\n`;
+
+  p += `You are an expert instructional designer and educator specializing in community college curriculum development. Create a complete, ready-to-use lesson for the following specifications.\n`;
+
+  p += h('LESSON OVERVIEW');
+  p += `Title: ${d.title || '[not specified]'}\n`;
+  if (d.audience)  p += `Audience: ${d.audience}\n`;
+  if (d.level)     p += `Bloom's Level: ${d.level}\n`;
+  if (d.duration)  p += `Duration: ${d.duration}\n`;
+  if (d.delivery)  p += `Delivery Format: ${d.delivery}\n`;
+  if (d.prior)     p += `Assumed Prior Knowledge: ${d.prior}\n`;
+  if (d.standards) p += `Standards / Framework Alignment: ${d.standards}\n`;
+
+  if (tags.objectives.length) {
+    p += h('LEARNING OBJECTIVES');
+    p += `By the end of this lesson, students will be able to:\n`;
+    tags.objectives.forEach((o, i) => p += `${i+1}. ${o}\n`);
+  }
+
+  if (tags.topics.length) {
+    p += h('TOPICS TO COVER');
+    tags.topics.forEach(t => p += `• ${t}\n`);
+  }
+
+  if (tags.terms.length) {
+    p += h('KEY TERMS / VOCABULARY');
+    p += `Define and apply the following terms throughout the lesson:\n`;
+    p += tags.terms.join(', ') + '\n';
+  }
+
+  if (d.activities.length) {
+    p += h('REQUIRED ACTIVITY TYPES');
+    p += `The lesson must include the following instructional activities:\n`;
+    d.activities.forEach(a => p += `• ${a}\n`);
+  }
+
+  if (d.ada.length) {
+    p += h('ACCESSIBILITY REQUIREMENTS (ADA)');
+    d.ada.forEach(a => p += `• ${a}\n`);
+  }
+
+  if (d.analogies.length) {
+    p += h('ANALOGIES & REAL-WORLD EXAMPLES');
+    d.analogies.forEach(a => p += `• ${a}\n`);
+  }
+
+  if (d.extra) {
+    p += h('ADDITIONAL INSTRUCTIONS');
+    p += d.extra + '\n';
+  }
+
+  p += h('OUTPUT FORMAT');
+  p += `Provide the complete lesson including: lesson overview, learning objectives recap, all instructional sections, activity instructions, key term glossary, and any assessments. Format clearly with headings for each section. Write for a community college instructor who will deliver this content directly to students.\n`;
+
+  return p.trim();
+}
+
+// ── Render to preview ──────────────────────────────────────
+function updatePrompt() {
+  const d = collect();
+  const box = document.getElementById('prompt-output');
+  const prompt = buildPrompt(d);
+
+  if (!prompt) {
+    box.innerHTML = '<span class="ph">← Fill in the form to build your prompt. It will appear here in real time.</span>';
+    document.getElementById('stats-row').innerHTML = '';
+    updateProgress(d);
+    return;
+  }
+
+  // Syntax highlight
+  const highlighted = prompt
+    .replace(/━━━ (.+?) ━━━/g, '<span class="sec">━━━ $1 ━━━</span>')
+    .replace(/^(Title|Audience|Duration|Delivery Format|Assumed Prior Knowledge|Standards \/ Framework Alignment|Bloom's Level):/gm, '<span class="key">$1:</span>')
+    .replace(/^(You are|By the end|Provide|Format|Write)/gm, '<span class="val">$1</span>');
+
+  box.innerHTML = highlighted;
+
+  // Stats
+  const words = prompt.split(/\s+/).filter(Boolean).length;
+  const chars = prompt.length;
+  document.getElementById('stats-row').innerHTML = `
+    <span class="stat-chip"><strong>${words}</strong> words</span>
+    <span class="stat-chip"><strong>${chars}</strong> chars</span>
+    <span class="stat-chip"><strong>${tags.objectives.length}</strong> objectives</span>
+    <span class="stat-chip"><strong>${tags.topics.length}</strong> topics</span>
+    <span class="stat-chip"><strong>${d.activities.length}</strong> activities</span>
+  `;
+
+  updateProgress(d);
+}
+
+// ── Progress ───────────────────────────────────────────────
+function updateProgress(d) {
+  const checks = [
+    !!d.title,
+    !!d.audience,
+    tags.objectives.length > 0,
+    tags.topics.length > 0,
+    tags.terms.length > 0,
+    d.activities.length > 0,
+    d.ada.length > 0,
+    d.analogies.length > 0,
+  ];
+  const pct = Math.round(checks.filter(Boolean).length / checks.length * 100);
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-pct').textContent = pct + '%';
+}
+
+// ── Copy ───────────────────────────────────────────────────
+function copyPrompt() {
+  const d = collect();
+  const prompt = buildPrompt(d);
+  if (!prompt) return;
+  navigator.clipboard.writeText(prompt).then(() => {
+    const toast = document.getElementById('copy-toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  });
+}
+
+// ── Download ───────────────────────────────────────────────
+function downloadPrompt() {
+  const d = collect();
+  const prompt = buildPrompt(d);
+  if (!prompt) return;
+  const blob = new Blob([prompt], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const name = (d.title || 'lesson-prompt').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g,'');
+  a.href = url; a.download = name + '-prompt.txt';
+  a.click(); URL.revokeObjectURL(url);
+}
+
+// ── Open in platform ───────────────────────────────────────
+async function openIn(url) {
+  const d = collect();
+  const prompt = buildPrompt(d);
+  if (prompt) await navigator.clipboard.writeText(prompt);
+  window.open(url, '_blank');
+}
+
+// ── Clear all ──────────────────────────────────────────────
+function clearAll() {
+  if (!confirm('Clear all fields and start over?')) return;
+  ['lesson-title','audience','lesson-level','duration','delivery','prior-knowledge','standards','extra-notes'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el.tagName === 'SELECT') el.selectedIndex = 0; else el.value = '';
+  });
+  tags.objectives = []; tags.topics = []; tags.terms = [];
+  ['obj-wrap','topics-wrap','terms-wrap'].forEach(id => {
+    document.getElementById(id).querySelectorAll('.tag').forEach(t => t.remove());
+  });
+  document.querySelectorAll('.check-item.active').forEach(el => {
+    el.classList.remove('active');
+    el.querySelector('input').checked = false;
+  });
+  document.querySelectorAll('.toggle-row.active').forEach(el => el.classList.remove('active'));
+  updatePrompt();
+}
+
+// ── Templates ──────────────────────────────────────────────
+const templates = {
+  secplus: {
+    title: 'Identity and Access Management (IAM)',
+    audience: 'Cybersecurity students (introductory)',
+    level: 'Apply – use knowledge in new situations',
+    duration: '50–75 minutes (one class period)',
+    delivery: 'Interactive HTML5 lesson page',
+    prior: 'Basic understanding of user accounts and passwords',
+    standards: 'CompTIA Security+ SY0-701, Domain 4.0 – Identity and Access Management',
+    objectives: ['Define IAM and explain its role in enterprise security','Compare authentication factors: something you know, have, and are','Configure a basic MFA scenario using industry tools','Evaluate the risks of privilege creep in an organization'],
+    topics: ['Authentication vs. Authorization','Multi-Factor Authentication (MFA)','Single Sign-On (SSO)','Least Privilege Principle','Role-Based Access Control (RBAC)'],
+    terms: ['IAM','MFA','SSO','RBAC','Privilege Creep','Zero Trust'],
+    activities: ['interactive learning activities','hands-on labs / simulations','formative and summative assessments'],
+    extra: 'Include a 10-question multiple-choice quiz aligned to SY0-701 exam objectives. Add a lab simulation where students configure user roles in a fictional company.',
+  },
+  cmmc: {
+    title: 'CMMC Level 2 Audit Preparation: Access Control Domain',
+    audience: 'Defense contractor workforce',
+    level: 'Evaluate – justify decisions and appraise',
+    duration: '2–3 hours (extended lab / workshop)',
+    delivery: 'Hybrid / HyFlex',
+    prior: 'Familiarity with NIST SP 800-171 framework basics',
+    standards: 'CMMC 2.0 Level 2, NIST SP 800-171 Rev 2, Access Control Domain (AC)',
+    objectives: ['Map CMMC AC domain practices to NIST SP 800-171 requirements','Identify access control gaps in a fictional DoD contractor scenario','Create a Plan of Action and Milestones (POA&M) entry for an AC finding'],
+    topics: ['CMMC 2.0 Overview','Access Control (AC) Domain Practices','CUI Handling Requirements','POA&M Documentation','SPRS Score Impact'],
+    terms: ['CMMC','CUI','SPRS','POA&M','AC.L2-3.1.1','Least Privilege','Separation of Duties'],
+    activities: ['real-world case studies','hands-on labs / simulations','team / collaborative projects','formative and summative assessments'],
+    extra: 'Use the FFSI (Federal Food Services Inc.) fictional defense contractor scenario. Students should analyze an audit evidence package and identify gaps.',
+  },
+  aifund: {
+    title: 'How Large Language Models Work: A Primer for Educators',
+    audience: 'Faculty / Professional development',
+    level: 'Understand – explain ideas and concepts',
+    duration: '50–75 minutes (one class period)',
+    delivery: 'Online asynchronous (self-paced)',
+    prior: 'General computer literacy; no programming background required',
+    standards: 'NSF ATE AI Faculty Development, AI-103 Foundations',
+    objectives: ['Explain the transformer architecture in plain language','Distinguish between generative AI and traditional software','Identify appropriate and inappropriate uses of LLMs in education'],
+    topics: ['What is a Large Language Model?','Tokens, Embeddings, and Attention','Training vs. Inference','Hallucination and Limitations','Classroom Use Cases'],
+    terms: ['LLM','Token','Embedding','Transformer','Prompt Engineering','Hallucination','Fine-tuning'],
+    activities: ['interactive learning activities','discussion prompts / Socratic questioning','self-paced review and reflection'],
+    extra: 'Write for faculty who are skeptical of AI. Use non-technical analogies. Include a reflection prompt asking instructors to identify one AI use case for their own course.',
+  },
+  networking: {
+    title: 'DNS Protocol: Resolution, Records, and Security',
+    audience: 'Networking / IT students',
+    level: 'Apply – use knowledge in new situations',
+    duration: '50–75 minutes (one class period)',
+    delivery: 'Interactive HTML5 lesson page',
+    prior: 'TCP/IP fundamentals, basic understanding of client-server model',
+    standards: 'CompTIA Network+ N10-009',
+    objectives: ['Trace a DNS resolution query step-by-step','Identify common DNS record types and their purposes','Describe DNS-based attack vectors including cache poisoning and DNS hijacking'],
+    topics: ['DNS Hierarchy','Resolution Process (Recursive vs. Iterative)','A, AAAA, MX, CNAME, TXT Records','DNSSEC','DNS Attacks: Spoofing, Cache Poisoning, Tunneling'],
+    terms: ['DNS','Resolver','Authoritative Server','TTL','DNSSEC','Cache Poisoning'],
+    activities: ['interactive learning activities','hands-on labs / simulations','formative and summative assessments'],
+    extra: 'Include a live step-by-step animated walkthrough of a DNS query. Add a packet capture analysis lab using Wireshark output.',
+  },
+  electronics: {
+    title: 'Analog-to-Digital Conversion: Sampling, Quantization, and Encoding',
+    audience: 'Electronics / Engineering students',
+    level: 'Analyze – draw connections among ideas',
+    duration: '50–75 minutes (one class period)',
+    delivery: 'Interactive HTML5 lesson page',
+    prior: 'Ohm\'s Law, basic op-amp circuits, binary number systems',
+    standards: 'ELT 102 / Electronics Technology Program Outcomes',
+    objectives: ['Explain the Nyquist theorem and its role in sampling','Calculate quantization error for a given bit depth','Compare successive approximation and flash ADC architectures'],
+    topics: ['Sampling Rate and Nyquist Theorem','Quantization and Bit Depth','Binary Encoding','ADC Architectures: Flash vs. SAR','Real-world ADC Applications'],
+    terms: ['ADC','DAC','Sampling Rate','Nyquist','Quantization Error','Bit Depth','SAR'],
+    activities: ['interactive learning activities','hands-on labs / simulations','scenario-based problem solving'],
+    extra: 'Include an interactive simulator where students can adjust sampling rate and bit depth and see the effect on a reconstructed waveform.',
+  }
+};
+
+function loadTemplate(key) {
+  const t = templates[key];
+  if (!t) return;
+  clearAll();
+
+  document.getElementById('lesson-title').value = t.title;
+  document.getElementById('audience').value = t.audience;
+  document.getElementById('lesson-level').value = t.level;
+  document.getElementById('duration').value = t.duration;
+  document.getElementById('delivery').value = t.delivery;
+  document.getElementById('prior-knowledge').value = t.prior || '';
+  document.getElementById('standards').value = t.standards || '';
+  document.getElementById('extra-notes').value = t.extra || '';
+
+  tags.objectives = [...t.objectives]; renderTags('objectives');
+  tags.topics     = [...t.topics];     renderTags('topics');
+  tags.terms      = [...t.terms];      renderTags('terms');
+
+  // Activities
+  document.querySelectorAll('#activity-grid .check-item').forEach(el => {
+    const val = el.querySelector('input').value;
+    if (t.activities.includes(val)) {
+      el.classList.add('active');
+      el.querySelector('input').checked = true;
+    }
+  });
+
+  // Default: turn on most ada + analogy toggles for templates
+  document.querySelectorAll('#ada-toggles .toggle-row').forEach((el, i) => {
+    if (i < 3) el.classList.add('active');
+  });
+  document.querySelectorAll('#analogy-toggles .toggle-row').forEach((el, i) => {
+    if (i < 2) el.classList.add('active');
+  });
+
+  updatePrompt();
+}
+
+// Init
+updatePrompt();
+</script>
+</body>
+</html>
