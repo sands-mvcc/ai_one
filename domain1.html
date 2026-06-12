@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instructor & Student Companion: Cybersecurity Principles</title>
+    <!-- Tailwind CSS for modern design tokens -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            green: '#047857', // Deep forest emerald green (passes WCAG 2.1 AA contrast on white)
+                            lightGreen: '#ecfdf5',
+                            darkGreen: '#065f46',
+                            black: '#111827',
+                            gray: '#4b5563'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* High-contrast and accessibility-focused focus outlines */
+        *:focus-visible {
+            outline: 3px solid #047857 !important;
+            outline-offset: 2px;
+        }
+        /* Custom print styling to ensure crisp white, black, and green printing without web interfaces */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            body {
+                background: white !important;
+                color: black !important;
+            }
+            .print-only {
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-white text-brand-black font-sans min-h-screen flex flex-col antialiased">
+
+    <!-- Accessibility Skip Link -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-brand-green text-white px-4 py-2 rounded-md font-bold z-50">
+        Skip to content
+    </a>
+
+    <!-- Top Branding & Navigation Header -->
+    <header class="border-b border-gray-200 bg-white sticky top-0 z-40 no-print" role="banner">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <!-- Brand Logotype (Custom White, Green, Black Theme) -->
+            <div class="flex items-center gap-3">
+                <div class="h-10 w-10 bg-brand-black rounded flex items-center justify-center border-2 border-brand-green" aria-hidden="true">
+                    <span class="text-white font-bold text-xl">🛡️</span>
+                </div>
+                <div>
+                    <h1 class="text-xl font-extrabold tracking-tight text-brand-black">CYBERSECURITY I</h1>
+                    <p class="text-xs font-semibold text-brand-green uppercase tracking-widest">CompTIA Security+ Lesson Hub</p>
+                </div>
+            </div>
+            
+            <!-- Interactive Segment Controller -->
+            <nav class="flex flex-wrap gap-2" aria-label="Lesson View Switcher">
+                <button onclick="switchMode('plan')" id="btn-plan" class="mode-btn px-4 py-2 text-sm font-semibold rounded-md border-2 border-brand-black bg-brand-black text-white hover:bg-opacity-90 transition-all duration-150" aria-current="page">
+                    Instructor Guide
+                </button>
+                <button onclick="switchMode('slides')" id="btn-slides" class="mode-btn px-4 py-2 text-sm font-semibold rounded-md border-2 border-transparent text-brand-black hover:border-brand-green transition-all duration-150">
+                    Slide Presentation
+                </button>
+                <button onclick="switchMode('lab')" id="btn-lab" class="mode-btn px-4 py-2 text-sm font-semibold rounded-md border-2 border-transparent text-brand-black hover:border-brand-green transition-all duration-150">
+                    Scenario Lab (Apply)
+                </button>
+                <button onclick="switchMode('worksheet')" id="btn-worksheet" class="mode-btn px-4 py-2 text-sm font-semibold rounded-md border-2 border-transparent text-brand-black hover:border-brand-green transition-all duration-150">
+                    Student Handout
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main id="main-content" class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8" role="main">
+
+        <!-- ================= MODE 1: INSTRUCTOR LESSON PLAN ================= -->
+        <section id="mode-plan" class="mode-section block">
+            <div class="border-l-4 border-brand-green pl-4 mb-8">
+                <h2 class="text-3xl font-black text-brand-black tracking-tight">LESSON GUIDE: Cybersecurity Principles</h2>
+                <p class="text-brand-gray mt-1 text-lg">A ready-to-use, high-impact lesson layout for community college classrooms.</p>
+            </div>
+
+            <!-- Metadata Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                <div class="p-4 bg-gray-50 border border-gray-200 rounded-lg">
+                    <span class="text-xs font-bold text-brand-green tracking-wider uppercase">Audience & Level</span>
+                    <p class="text-lg font-bold text-brand-black mt-1">Introductory Students</p>
+                    <p class="text-xs text-brand-gray mt-1">No prior exposure assumed</p>
+                </div>
+                <div class="p-4 bg-gray-50 border border-gray-200 rounded-lg">
+                    <span class="text-xs font-bold text-brand-green tracking-wider uppercase">Duration</span>
+                    <p class="text-lg font-bold text-brand-black mt-1">30–45 Minutes</p>
+                    <p class="text-xs text-brand-gray mt-1">Modular & face-to-face focus</p>
+                </div>
+                <div class="p-4 bg-gray-50 border border-gray-200 rounded-lg">
+                    <span class="text-xs font-bold text-brand-green tracking-wider uppercase">Bloom's Taxonomy</span>
+                    <p class="text-lg font-bold text-brand-black mt-1">Level 3: Apply</p>
+                    <p class="text-xs text-brand-gray mt-1">Evaluate scenarios in real-time</p>
+                </div>
+                <div class="p-4 bg-gray-50 border border-gray-200 rounded-lg">
+                    <span class="text-xs font-bold text-brand-green tracking-wider uppercase">Standard Alignment</span>
+                    <p class="text-lg font-bold text-brand-black mt-1">CompTIA Security+</p>
+                    <p class="text-xs text-brand-gray mt-1">Domain 1: Threat Landscape & Architecture</p>
+                </div>
+            </div>
+
+            <!-- Timed Agenda Checklist -->
+            <div class="bg-white border border-gray-200 rounded-xl p-6 md:p-8 shadow-sm mb-8">
+                <h3 class="text-xl font-bold text-brand-black border-b border-gray-200 pb-4 mb-6 flex items-center gap-2">
+                    <span>⏱️</span> Step-by-Step Classroom Delivery Strategy (30-45 Min)
+                </h3>
+                
+                <div class="space-y-6">
+                    <!-- Phase 1 -->
+                    <div class="flex gap-4">
+                        <div class="flex flex-col items-center">
+                            <span class="flex h-8 w-8 items-center justify-center rounded-full bg-brand-green text-white font-bold text-sm">1</span>
+                            <div class="w-0.5 bg-gray-200 flex-grow mt-2"></div>
+                        </div>
+                        <div class="flex-grow pb-4">
+                            <h4 class="font-bold text-brand-black text-lg">Hook & Setup <span class="text-brand-green">(5 Minutes)</span></h4>
+                            <p class="text-brand-gray text-sm mt-1">Engage students immediately with an open-ended scenario. Start with zero slides. Ask students: <em>"If you were tasked with protecting a physical bank, would you lock the vault, guard the front door, or check customer IDs?"</em> Show that cybersecurity uses identical principles.</p>
+                            <div class="mt-2 bg-brand-lightGreen border-l-4 border-brand-green p-3 rounded-r-md">
+                                <span class="text-xs font-bold text-brand-darkGreen uppercase">Instructor Prompt:</span>
+                                <p class="text-xs text-brand-black italic mt-1">"Welcome back, everyone. Today, we're not starting with complex computer code. We're starting with physical locks, high-security safes, and castle defenses. By the end of this period, you will be predicting and defending against advanced network threats using basic real-world logic."</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phase 2 -->
+                    <div class="flex gap-4">
+                        <div class="flex flex-col items-center">
+                            <span class="flex h-8 w-8 items-center justify-center rounded-full bg-brand-green text-white font-bold text-sm">2</span>
+                            <div class="w-0.5 bg-gray-200 flex-grow mt-2"></div>
+                        </div>
+                        <div class="flex-grow pb-4">
+                            <h4 class="font-bold text-brand-black text-lg">Core Instruction & Analogies <span class="text-brand-green">(15 Minutes)</span></h4>
+                            <p class="text-brand-gray text-sm mt-1">Deploy the classroom presentation slide deck (Use <strong>Slide Presentation Mode</strong> above). Break down two absolute pillars of the CompTIA Security+ syllabus:</p>
+                            <ul class="list-disc pl-5 text-xs text-brand-gray space-y-1 mt-2">
+                                <li><strong>The CIA Triad</strong> (Confidentiality, Integrity, Availability) - Explained using the <em>Medical Clinic Clinic</em> analogy.</li>
+                                <li><strong>Defense-in-Depth</strong> (Layered Security) - Explained using the <em>Medieval Castle defenses</em>.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Phase 3 -->
+                    <div class="flex gap-4">
+                        <div class="flex flex-col items-center">
+                            <span class="flex h-8 w-8 items-center justify-center rounded-full bg-brand-green text-white font-bold text-sm">3</span>
+                            <div class="w-0.5 bg-gray-200 flex-grow mt-2"></div>
+                        </div>
+                        <div class="flex-grow pb-4">
+                            <h4 class="font-bold text-brand-black text-lg">Active Learning Scenario Lab <span class="text-brand-green">(15 Minutes)</span></h4>
+                            <p class="text-brand-gray text-sm mt-1">Transition to hands-on analysis. Project the <strong>Scenario Lab</strong> onto the classroom screen or have students open it on their computers. Walk through the scenario problems as a class, prompting students to debate which CIA element is broken and which layered defense will secure it.</p>
+                        </div>
+                    </div>
+
+                    <!-- Phase 4 -->
+                    <div class="flex gap-4">
+                        <div class="flex flex-col items-center">
+                            <span class="flex h-8 w-8 items-center justify-center rounded-full bg-brand-green text-white font-bold text-sm">4</span>
+                        </div>
+                        <div class="flex-grow">
+                            <h4 class="font-bold text-brand-black text-lg">Synthesis & Wrap-up <span class="text-brand-green">(5-10 Minutes)</span></h4>
+                            <p class="text-brand-gray text-sm mt-1">Distribute the <strong>Student Handout</strong> (print directly using the browser print option) for quick, self-paced review. Assign the terminal scenario assignment to be submitted next session.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ADA Web Accessibility Checklist -->
+            <div class="bg-brand-lightGreen border border-brand-green rounded-xl p-6">
+                <h3 class="text-lg font-bold text-brand-darkGreen flex items-center gap-2 mb-3">
+                    <span>♿</span> Web Accessibility Assurance (WCAG 2.1 AA Compliance)
+                </h3>
+                <ul class="space-y-2 text-sm text-brand-black">
+                    <li class="flex items-start gap-2">
+                        <span class="text-brand-green font-bold">✓</span>
+                        <span><strong>Robust Contrast Ratio:</strong> All text elements meet or exceed 4.5:1 ratio targets using emerald green (`#047857`) and slate black on clean white.</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="text-brand-green font-bold">✓</span>
+                        <span><strong>Screen-Reader Ready:</strong> Structural sections use semantic HTML tags (`&lt;main&gt;`, `&lt;header&gt;`, `&lt;nav&gt;`, `&lt;section&gt;`) with robust dynamic ARIA attributes.</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="text-brand-green font-bold">✓</span>
+                        <span><strong>Keyboard Accessible:</strong> Every control and slider inside the presentation slide deck can be seamlessly operated with a keyboard (Left/Right Arrows, Space).</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+
+        <!-- ================= MODE 2: PRESENTATION SLIDE DECK ================= -->
+        <section id="mode-slides" class="mode-section hidden">
+            <!-- Instructions Header for Presentation Control -->
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 no-print">
+                <div>
+                    <h2 class="text-2xl font-black text-brand-black">Classroom Interactive Presentation</h2>
+                    <p class="text-brand-gray text-sm">Perfect for projector output. Click the slide or use keyboard <span class="bg-gray-100 border px-1.5 py-0.5 rounded text-xs">← Left Arrow</span> and <span class="bg-gray-100 border px-1.5 py-0.5 rounded text-xs">→ Right Arrow</span> keys to navigate.</p>
+                </div>
+                <div class="text-sm font-bold text-brand-green bg-brand-lightGreen px-3 py-1.5 rounded-full" id="slide-progress-indicator">
+                    Slide 1 of 5
+                </div>
+            </div>
+
+            <!-- Dynamic Slider Viewport -->
+            <div class="border-4 border-brand-black rounded-2xl overflow-hidden shadow-lg bg-white relative min-h-[450px] flex flex-col justify-between" id="slide-viewport">
+                
+                <!-- Dynamic Content Container -->
+                <div id="slide-content" class="p-8 sm:p-12 flex-grow flex flex-col justify-center">
+                    <!-- Slide content rendered programmatically via JS -->
+                </div>
+
+                <!-- Slide Navigation Controls -->
+                <div class="bg-gray-50 border-t border-gray-200 px-6 py-4 flex items-center justify-between no-print">
+                    <button onclick="prevSlide()" class="px-4 py-2 border-2 border-brand-black text-sm font-bold rounded-md hover:bg-gray-100 active:scale-95 transition-all" aria-label="Previous Slide">
+                        &larr; Back
+                    </button>
+                    <!-- Small interactive indicator dots -->
+                    <div class="flex gap-2" id="slide-dots">
+                        <!-- Rendered by JS -->
+                    </div>
+                    <button onclick="nextSlide()" class="px-4 py-2 bg-brand-black text-white text-sm font-bold rounded-md hover:bg-opacity-95 active:scale-95 transition-all" aria-label="Next Slide">
+                        Next &rarr;
+                    </button>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= MODE 3: INTERACTIVE SCENARIO LAB ================= -->
+        <section id="mode-lab" class="mode-section hidden">
+            <div class="border-l-4 border-brand-green pl-4 mb-6">
+                <h2 class="text-2xl font-black text-brand-black tracking-tight">Active Learning: Applying Principles to Practice</h2>
+                <p class="text-brand-gray text-sm">Analyze the real-world scenarios below and match the correct Security+ principle and solution.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Scenario Controls -->
+                <div class="lg:col-span-1 space-y-3">
+                    <button onclick="selectLabScenario(0)" id="btn-lab-0" class="lab-selector-btn text-left w-full p-4 rounded-xl border-2 border-brand-black bg-brand-lightGreen font-bold flex items-center justify-between transition-all">
+                        <span>Incident A: Medical Records Leak</span>
+                        <span class="text-brand-green">👉</span>
+                    </button>
+                    <button onclick="selectLabScenario(1)" id="btn-lab-1" class="lab-selector-btn text-left w-full p-4 rounded-xl border border-gray-200 bg-white hover:border-brand-green font-semibold flex items-center justify-between transition-all">
+                        <span>Incident B: Lab Results Altered</span>
+                        <span class="text-brand-gray">📄</span>
+                    </button>
+                    <button onclick="selectLabScenario(2)" id="btn-lab-2" class="lab-selector-btn text-left w-full p-4 rounded-xl border border-gray-200 bg-white hover:border-brand-green font-semibold flex items-center justify-between transition-all">
+                        <span>Incident C: Clinic Offline</span>
+                        <span class="text-brand-gray">📄</span>
+                    </button>
+                </div>
+
+                <!-- Interactive Playground Workspace -->
+                <div class="lg:col-span-2 border border-gray-200 rounded-xl p-6 shadow-sm bg-white">
+                    <div id="lab-workspace-content">
+                        <!-- Rendered programmatically via JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= MODE 4: WORKSHEET & EXPORTER ================= -->
+        <section id="mode-worksheet" class="mode-section hidden">
+            <!-- Controller Tools -->
+            <div class="mb-8 p-4 bg-gray-50 border border-gray-200 rounded-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4 no-print">
+                <div>
+                    <h2 class="font-extrabold text-brand-black text-lg">ADA-Compliant Handout</h2>
+                    <p class="text-brand-gray text-xs mt-1">Ready for high-quality black &amp; white local printing or export to PDF.</p>
+                </div>
+                <button onclick="window.print()" class="px-5 py-2.5 bg-brand-green hover:bg-brand-darkGreen text-white font-bold rounded-lg flex items-center gap-2 shadow-sm transition-all text-sm">
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+                    Print Handout
+                </button>
+            </div>
+
+            <!-- Print-Ready Printable Document Wrapper -->
+            <article class="bg-white border border-gray-300 rounded-2xl p-8 max-w-4xl mx-auto text-brand-black leading-relaxed" id="printable-worksheet">
+                <div class="flex justify-between items-start border-b-4 border-brand-black pb-6 mb-8">
+                    <div>
+                        <h1 class="text-3xl font-black uppercase tracking-tight">Cybersecurity Principles Handout</h1>
+                        <p class="text-sm font-semibold tracking-wider text-brand-green uppercase mt-1">Instructor: Introduction to Security &amp; AI Fundamentals</p>
+                    </div>
+                    <div class="text-right text-xs text-brand-gray font-bold">
+                        <p>Course Module: 01</p>
+                        <p>Topic Assessment: CIA</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 mb-8">
+                    <div class="border-b border-gray-300 pb-2">
+                        <span class="text-xs font-semibold text-brand-gray block">Student Name:</span>
+                        <div class="h-6"></div>
+                    </div>
+                    <div class="border-b border-gray-300 pb-2">
+                        <span class="text-xs font-semibold text-brand-gray block">Date:</span>
+                        <div class="h-6"></div>
+                    </div>
+                </div>
+
+                <!-- Part 1: Quick Reference -->
+                <section class="mb-8">
+                    <h2 class="text-lg font-black uppercase tracking-wider text-brand-black border-b border-gray-200 pb-1 mb-3">Part 1: Key Concepts</h2>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <h3 class="font-bold text-brand-green text-sm">1. The CIA Triad</h3>
+                            <p class="text-xs text-brand-gray mt-1">Every security control in cybersecurity is built to protect one or more of these principles:</p>
+                            <ul class="list-disc pl-5 mt-2 space-y-1 text-xs text-brand-black">
+                                <li><strong>Confidentiality:</strong> Preventing unauthorized viewing or extraction of private data. (e.g., encryption, passwords).</li>
+                                <li><strong>Integrity:</strong> Guaranteeing data has not been altered or tampered with. (e.g., hashing, digital signatures).</li>
+                                <li><strong>Availability:</strong> Ensuring authorized users have uninterrupted access to resources. (e.g., backups, redundant servers).</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h3 class="font-bold text-brand-green text-sm">2. Defense-in-Depth (Layered Security)</h3>
+                            <p class="text-xs text-brand-gray mt-1">Never rely on a single defensive system. Implement security at multiple logical structures:</p>
+                            <ul class="list-disc pl-5 mt-2 space-y-1 text-xs text-brand-black">
+                                <li><strong>Physical Layer:</strong> Locks, security gates, guard towers.</li>
+                                <li><strong>Technical Layer:</strong> Firewalls, secure authentication mechanisms, active encryption.</li>
+                                <li><strong>Administrative Layer:</strong> Employee training policies, background screenings, standard procedures.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Part 2: Active Scenario Application Exercises -->
+                <section class="mb-8">
+                    <h2 class="text-lg font-black uppercase tracking-wider text-brand-black border-b border-gray-200 pb-1 mb-4">Part 2: Classroom Challenge Worksheets</h2>
+                    
+                    <div class="space-y-6">
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <span class="text-xs font-bold text-white bg-brand-green px-2 py-0.5 rounded">Scenario Challenge 1</span>
+                            <p class="text-xs text-brand-black font-semibold mt-2">A malicious competitor floods a financial app's servers, causing the service to drop offline for 4 hours. No data is stolen, but clients cannot trade.</p>
+                            <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div class="border border-dashed border-gray-300 p-3 rounded">
+                                    <span class="text-xs font-bold text-brand-gray block mb-1">Which CIA Core Element is compromised?</span>
+                                    <div class="h-10"></div>
+                                </div>
+                                <div class="border border-dashed border-gray-300 p-3 rounded">
+                                    <span class="text-xs font-bold text-brand-gray block mb-1">Suggest a Defense-in-Depth Layered remedy:</span>
+                                    <div class="h-10"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <span class="text-xs font-bold text-white bg-brand-green px-2 py-0.5 rounded">Scenario Challenge 2</span>
+                            <p class="text-xs text-brand-black font-semibold mt-2">An employee opens a phishing attachment that intercepts their username and password. This allows hackers to download sensitive client identity profiles.</p>
+                            <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div class="border border-dashed border-gray-300 p-3 rounded">
+                                    <span class="text-xs font-bold text-brand-gray block mb-1">Which CIA Core Element is compromised?</span>
+                                    <div class="h-10"></div>
+                                </div>
+                                <div class="border border-dashed border-gray-300 p-3 rounded">
+                                    <span class="text-xs font-bold text-brand-gray block mb-1">Suggest an Administrative Defense Layer to prevent this:</span>
+                                    <div class="h-10"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </article>
+        </section>
+
+    </main>
+
+    <!-- Footer Area -->
+    <footer class="bg-gray-50 border-t border-gray-200 py-6 mt-12 no-print" role="contentinfo">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-brand-gray flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p>&copy; 2026 Intro Cybersecurity Class Framework. Visual layout built in compliance with WCAG 2.1 AA.</p>
+            <div class="flex gap-4">
+                <span class="font-bold text-brand-green">Topic Alignment: Security+</span>
+                <span>|</span>
+                <span class="font-bold text-brand-green">Bloom's: Apply Level</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Javascript Core Logic -->
+    <script>
+        // Slide Deck Content Object Array
+        const SLIDES_CONTENT = [
+            {
+                title: "Welcome to Cybersecurity Principles 🛡️",
+                subtitle: "CompTIA Security+ Framework Foundations",
+                content: `
+                    <div class="space-y-4">
+                        <p class="text-lg text-brand-black font-medium leading-relaxed">
+                            Cybersecurity is not just about writing code or hacking databases. It is the logical practice of identifying risks and putting systems in place to mitigate them.
+                        </p>
+                        <div class="bg-brand-lightGreen p-4 rounded-lg border-l-4 border-brand-green mt-4">
+                            <h4 class="font-bold text-brand-darkGreen text-sm uppercase">Learning Objective</h4>
+                            <p class="text-xs text-brand-black mt-1 leading-relaxed">
+                                Apply the basic tenets of cybersecurity—the <strong>CIA Triad</strong> and <strong>Defense-in-Depth</strong>—to predict, analyze, and troubleshoot security incidents in real-world business scenarios.
+                            </p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                title: "The CIA Triad 🔑",
+                subtitle: "Three Non-Negotiable Targets of Security",
+                content: `
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="border-2 border-brand-black p-4 rounded-lg">
+                            <span class="text-2xl" aria-hidden="true">🔒</span>
+                            <h4 class="font-bold text-brand-black text-sm mt-2">Confidentiality</h4>
+                            <p class="text-xs text-brand-gray mt-1 leading-relaxed">Only authorized personnel can access critical data. No data leaks.</p>
+                        </div>
+                        <div class="border-2 border-brand-black p-4 rounded-lg">
+                            <span class="text-2xl" aria-hidden="true">✍️</span>
+                            <h4 class="font-bold text-brand-black text-sm mt-2">Integrity</h4>
+                            <p class="text-xs text-brand-gray mt-1 leading-relaxed">Ensure information remains accurate and unaltered during transit.</p>
+                        </div>
+                        <div class="border-2 border-brand-black p-4 rounded-lg">
+                            <span class="text-2xl" aria-hidden="true">⚡</span>
+                            <h4 class="font-bold text-brand-black text-sm mt-2">Availability</h4>
+                            <p class="text-xs text-brand-gray mt-1 leading-relaxed">Authorized employees must have instant, reliable access to files.</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                title: "Analogy 1: The Medical Clinic 🏥",
+                subtitle: "Visualizing the CIA Triad",
+                content: `
+                    <div class="space-y-4">
+                        <p class="text-sm text-brand-black leading-relaxed">Imagine you manage a busy community hospital. How do you visualize the CIA Triad?</p>
+                        
+                        <div class="space-y-3">
+                            <div class="flex items-start gap-3">
+                                <span class="bg-brand-black text-white px-2 py-0.5 rounded text-xs font-bold mt-0.5">Confidentiality</span>
+                                <p class="text-xs text-brand-black leading-relaxed">Patients' medical files are sealed in a drawer. Only doctors and authorized nurses hold keys to look inside.</p>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <span class="bg-brand-black text-white px-2 py-0.5 rounded text-xs font-bold mt-0.5">Integrity</span>
+                                <p class="text-xs text-brand-black leading-relaxed">A patient's blood test results cannot be edited or modified. Unchecked modifications can lead to false diagnoses.</p>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <span class="bg-brand-black text-white px-2 py-0.5 rounded text-xs font-bold mt-0.5">Availability</span>
+                                <p class="text-xs text-brand-black leading-relaxed">When an unconscious patient arrives in the ER, surgeons must instantly access their severe allergy record.</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                title: "Defense-in-Depth 🏰",
+                subtitle: "The Power of Layered Security",
+                content: `
+                    <div class="space-y-4">
+                        <p class="text-sm text-brand-black leading-relaxed">
+                            No single defensive mechanism is perfect. If an attacker bypasses one barrier, other barriers must hold.
+                        </p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-gray-50 border border-gray-200 p-3 rounded-lg">
+                                <h4 class="font-bold text-xs text-brand-green uppercase">1. Administrative Layer</h4>
+                                <p class="text-[11px] text-brand-gray mt-1 leading-relaxed">Rules, operations, policies, and continuous security training of employees.</p>
+                            </div>
+                            <div class="bg-gray-50 border border-gray-200 p-3 rounded-lg">
+                                <h4 class="font-bold text-xs text-brand-green uppercase">2. Physical Layer</h4>
+                                <p class="text-[11px] text-brand-gray mt-1 leading-relaxed">Locks, biometric scanners, secure server enclosures, camera networks.</p>
+                            </div>
+                            <div class="bg-gray-50 border border-gray-200 p-3 rounded-lg">
+                                <h4 class="font-bold text-xs text-brand-green uppercase">3. Technical Layer</h4>
+                                <p class="text-[11px] text-brand-gray mt-1 leading-relaxed">Network firewalls, file encryption, multi-factor authentication (MFA).</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                title: "Analogy 2: The Medieval Castle 🏰",
+                subtitle: "Visualizing Defense-in-Depth",
+                content: `
+                    <div class="space-y-4">
+                        <p class="text-sm text-brand-black leading-relaxed">How did ancient kingdoms secure their gold crown? They never relied on just a lock.</p>
+                        
+                        <div class="space-y-2">
+                            <div class="flex gap-2 text-xs">
+                                <strong class="text-brand-green w-24 shrink-0">1. The Moat:</strong>
+                                <span class="text-brand-gray leading-relaxed">Deterrent barrier. (Corresponds to a network firewall blocking bulk traffic).</span>
+                            </div>
+                            <div class="flex gap-2 text-xs">
+                                <strong class="text-brand-green w-24 shrink-0">2. Drawbridge:</strong>
+                                <span class="text-brand-gray leading-relaxed">Identification and validation gate. (Corresponds to entering a valid password and login token).</span>
+                            </div>
+                            <div class="flex gap-2 text-xs">
+                                <strong class="text-brand-green w-24 shrink-0">3. Stone Vault:</strong>
+                                <span class="text-brand-gray leading-relaxed">Final barrier protecting the actual crown inside. (Corresponds to robust file level encryption).</span>
+                            </div>
+                        </div>
+                        <p class="text-xs font-bold text-brand-black bg-brand-lightGreen p-3.5 rounded mt-3 leading-relaxed">
+                            💡 Takeaway: If a spy climbs over the drawbridge (Technical Failure), they still cannot breach the heavy stone safe without specialized keys (Physical Barrier).
+                        </p>
+                    </div>
+                `
+            }
+        ];
+
+        // Active Lab Scenarios Content Object Array
+        const LAB_SCENARIOS = [
+            {
+                title: "Incident A: Medical Records Leak",
+                description: "A clinical laboratory employee inadvertently saved a spreadsheet containing 5,000 patient names, phone numbers, and diagnostic histories on a public internet cloud storage folder. Competitors discovered and downloaded the dataset.",
+                question1: "Which component of the CIA Triad was compromised in this database incident?",
+                options1: ["Confidentiality", "Integrity", "Availability"],
+                correctIndex1: 0,
+                explanation1: "Correct! The data was viewed by unauthorized third parties, violating the core principle of Confidentiality.",
+                question2: "Which layer of Defense-in-Depth would best prevent this accidental configuration error?",
+                options2: [
+                    "Physical Layer (A better locked door on the server cage)",
+                    "Administrative Layer (Mandatory training on cloud configurations + policies)",
+                    "No layers can prevent accidental uploads by users"
+                ],
+                correctIndex2: 1,
+                explanation2: "Great choice! Clear, administrative protocols and training prevent employees from creating severe risk exposures in public folders."
+            },
+            {
+                title: "Incident B: Lab Results Altered",
+                description: "A malicious network attacker executed an unauthorized man-in-the-middle transmission to alter patients' clinical lab reports directly from 'Negative' to 'Positive' while records were traveling between the testing servers and the primary care clinic.",
+                question1: "Which component of the CIA Triad was violated here?",
+                options1: ["Confidentiality", "Integrity", "Availability"],
+                correctIndex1: 1,
+                explanation1: "Excellent! The underlying correctness and truth of the information was altered during travel, meaning the Integrity was lost.",
+                question2: "Which technical mechanism ensures the integrity of records during electronic transit?",
+                options2: [
+                    "Cryptographic Hashing and Digital Signatures (Hashing proves data didn't change)",
+                    "Making physical backups of the lab servers",
+                    "Requiring users to make their passwords longer"
+                ],
+                correctIndex2: 0,
+                explanation2: "Correct! Hashing provides a mathematical fingerprint of data. If even a single letter of the patient record is modified, the hash fails to match."
+            },
+            {
+                title: "Incident C: Clinic Offline",
+                description: "A ransomware cyberattack encrypted the master storage array of a regional pediatric emergency department. Medical workers cannot load critical medical histories or allergy details for active emergency surgeries, crippling intake.",
+                question1: "Which element of the CIA Triad has been targeted?",
+                options1: ["Confidentiality", "Integrity", "Availability"],
+                correctIndex1: 2,
+                explanation1: "Perfect! The primary loss is the clinic's access to its key clinical operations systems, which breaks Availability.",
+                question2: "To guarantee availability after a ransomware cyberattack, which defense layout is required?",
+                options2: [
+                    "A secure firewall update to lock out hackers",
+                    "Redundant offsite backups stored isolated from the active system network",
+                    "Hiring armed physical guards to protect server locations"
+                ],
+                correctIndex2: 1,
+                explanation2: "Yes! Offline, disconnected backup copies are the ultimate defense for system availability. Even if attackers lock your systems, isolated backups let you rebuild cleanly."
+            }
+        ];
+
+        // Global State Variables
+        let currentSlideIdx = 0;
+        let selectedLabIdx = 0;
+        let userLabAnswers = {};
+
+        // Application Controller to Toggle Views (Aesthetic UI switcher)
+        function switchMode(mode) {
+            // Uncheck active nav states
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.classList.remove('bg-brand-black', 'text-white', 'border-brand-black');
+                btn.classList.add('border-transparent', 'text-brand-black');
+                btn.removeAttribute('aria-current');
+            });
+
+            // Hide all active sections
+            document.querySelectorAll('.mode-section').forEach(section => {
+                section.classList.add('hidden');
+                section.classList.remove('block');
+            });
+
+            // Set current active states
+            const activeBtn = document.getElementById(`btn-${mode}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('border-transparent', 'text-brand-black');
+                activeBtn.classList.add('bg-brand-black', 'text-white', 'border-brand-black');
+                activeBtn.setAttribute('aria-current', 'page');
+            }
+
+            const activeSection = document.getElementById(`mode-${mode}`);
+            if (activeSection) {
+                activeSection.classList.remove('hidden');
+                activeSection.classList.add('block');
+            }
+
+            // Trigger structural rendering if slide deck is selected
+            if (mode === 'slides') {
+                renderSlide();
+            } else if (mode === 'lab') {
+                renderLabWorkspace();
+            }
+        }
+
+        // --- SLIDE DECK FUNCTIONS ---
+        function renderSlide() {
+            const slide = SLIDES_CONTENT[currentSlideIdx];
+            const slideContent = document.getElementById('slide-content');
+            const progress = document.getElementById('slide-progress-indicator');
+            const dotsContainer = document.getElementById('slide-dots');
+
+            // Render rich accessible text
+            slideContent.innerHTML = `
+                <div class="animate-fadeIn">
+                    <span class="text-xs font-bold text-brand-green tracking-widest uppercase block mb-1">Concept Slide ${currentSlideIdx + 1}</span>
+                    <h3 class="text-3xl font-black text-brand-black tracking-tight leading-tight">${slide.title}</h3>
+                    <p class="text-sm text-brand-gray font-semibold mb-6 border-b pb-4 border-gray-200">${slide.subtitle}</p>
+                    <div class="text-brand-black text-base leading-relaxed">
+                        ${slide.content}
+                    </div>
+                </div>
+            `;
+
+            // Render indicator progress text
+            progress.innerText = `Slide ${currentSlideIdx + 1} of ${SLIDES_CONTENT.length}`;
+
+            // Render accessible dot indicators
+            dotsContainer.innerHTML = '';
+            SLIDES_CONTENT.forEach((_, idx) => {
+                const dot = document.createElement('button');
+                dot.className = `h-3 w-3 rounded-full transition-all duration-150 ${idx === currentSlideIdx ? 'bg-brand-black scale-125' : 'bg-gray-300 hover:bg-brand-green'}`;
+                dot.setAttribute('aria-label', `Maps directly to Slide ${idx + 1}`);
+                dot.onclick = () => { currentSlideIdx = idx; renderSlide(); };
+                dotsContainer.appendChild(dot);
+            });
+        }
+
+        function nextSlide() {
+            if (currentSlideIdx < SLIDES_CONTENT.length - 1) {
+                currentSlideIdx++;
+                renderSlide();
+            } else {
+                // If on final slide, transition directly into Active Learning mode
+                switchMode('lab');
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlideIdx > 0) {
+                currentSlideIdx--;
+                renderSlide();
+            }
+        }
+
+        // Attach global keypress listeners for presentation navigation
+        document.addEventListener('keydown', (e) => {
+            const isSlidesActive = !document.getElementById('mode-slides').classList.contains('hidden');
+            if (isSlidesActive) {
+                if (e.key === 'ArrowRight' || e.key === ' ') {
+                    e.preventDefault();
+                    nextSlide();
+                } else if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    prevSlide();
+                }
+            }
+        });
+
+        // --- INTERACTIVE LAB SCENARIO FUNCTIONS ---
+        function selectLabScenario(idx) {
+            selectedLabIdx = idx;
+            
+            // Toggle selector buttons styling
+            document.querySelectorAll('.lab-selector-btn').forEach((btn, buttonIdx) => {
+                if (buttonIdx === idx) {
+                    btn.className = "lab-selector-btn text-left w-full p-4 rounded-xl border-2 border-brand-black bg-brand-lightGreen font-bold flex items-center justify-between transition-all";
+                    btn.querySelector('span:last-child').className = "text-brand-green";
+                    btn.querySelector('span:last-child').innerText = "👉";
+                } else {
+                    btn.className = "lab-selector-btn text-left w-full p-4 rounded-xl border border-gray-200 bg-white hover:border-brand-green font-semibold flex items-center justify-between transition-all";
+                    btn.querySelector('span:last-child').className = "text-brand-gray";
+                    btn.querySelector('span:last-child').innerText = "📄";
+                }
+            });
+
+            renderLabWorkspace();
+        }
+
+        function renderLabWorkspace() {
+            const data = LAB_SCENARIOS[selectedLabIdx];
+            const container = document.getElementById('lab-workspace-content');
+
+            // Generate HTML layout dynamically
+            container.innerHTML = `
+                <div>
+                    <span class="text-xs font-bold text-brand-green tracking-widest uppercase block mb-1">Interactive Sandbox Challenge</span>
+                    <h3 class="text-xl font-extrabold text-brand-black border-b border-gray-100 pb-3 mb-4">${data.title}</h3>
+                    
+                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
+                        <h4 class="text-xs font-bold uppercase text-brand-gray tracking-wider mb-1">Scenario Background:</h4>
+                        <p class="text-xs leading-relaxed text-brand-black">${data.description}</p>
+                    </div>
+
+                    <div class="space-y-6">
+                        <!-- Lab Prompt Question 1 -->
+                        <div>
+                            <span class="text-xs font-bold text-brand-green block mb-2">PART 1: INTERACTION CHECKPOINT</span>
+                            <p class="text-sm font-bold text-brand-black mb-3">${data.question1}</p>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3" role="radiogroup">
+                                ${data.options1.map((opt, oIdx) => `
+                                    <button onclick="submitLabAnswer(1, ${oIdx})" class="p-3 text-xs text-left border rounded-lg hover:border-brand-green font-semibold transition-all duration-150 ${getLabOptionClass(1, oIdx)}" id="btn-q1-${oIdx}">
+                                        ${opt}
+                                    </button>
+                                `).join('')}
+                            </div>
+                            <div id="q1-explanation" class="mt-2 text-xs font-medium hidden"></div>
+                        </div>
+
+                        <!-- Lab Prompt Question 2 (Initially Hidden till Question 1 is Completed) -->
+                        <div id="q2-section" class="pt-4 border-t border-gray-100 hidden">
+                            <span class="text-xs font-bold text-brand-green block mb-2">PART 2: LAYERED ARCHITECTURE CONTROL</span>
+                            <p class="text-sm font-bold text-brand-black mb-3">${data.question2}</p>
+                            <div class="space-y-2" role="radiogroup">
+                                ${data.options2.map((opt, oIdx) => `
+                                    <button onclick="submitLabAnswer(2, ${oIdx})" class="w-full p-3 text-xs text-left border rounded-lg hover:border-brand-green font-semibold transition-all duration-150 ${getLabOptionClass(2, oIdx)}" id="btn-q2-${oIdx}">
+                                        ${opt}
+                                    </button>
+                                `).join('')}
+                            </div>
+                            <div id="q2-explanation" class="mt-2 text-xs font-medium hidden"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // If user previously submitted, restore explanations on reload
+            restoreLabState();
+        }
+
+        // Return contextual dynamic classes for buttons
+        function getLabOptionClass(qNum, optIdx) {
+            const stateKey = `${selectedLabIdx}-q${qNum}`;
+            if (userLabAnswers[stateKey] === optIdx) {
+                const data = LAB_SCENARIOS[selectedLabIdx];
+                const correctIdx = qNum === 1 ? data.correctIndex1 : data.correctIndex2;
+                return optIdx === correctIdx 
+                    ? "border-brand-green bg-brand-lightGreen text-brand-darkGreen ring-2 ring-brand-green" 
+                    : "border-red-500 bg-red-50 text-red-700 ring-2 ring-red-500";
+            }
+            return "border-gray-200 bg-white text-brand-black";
+        }
+
+        function submitLabAnswer(qNum, optIdx) {
+            const stateKey = `${selectedLabIdx}-q${qNum}`;
+            userLabAnswers[stateKey] = optIdx;
+
+            const data = LAB_SCENARIOS[selectedLabIdx];
+            const correctIdx = qNum === 1 ? data.correctIndex1 : data.correctIndex2;
+            const isCorrect = optIdx === correctIdx;
+
+            // Update explanation UI markup
+            const expDiv = document.getElementById(`q${qNum}-explanation`);
+            expDiv.className = `mt-3 p-3 rounded-lg border text-xs font-semibold ${isCorrect ? 'bg-brand-lightGreen border-brand-green text-brand-darkGreen' : 'bg-red-50 border-red-300 text-red-800'}`;
+            expDiv.innerText = isCorrect ? (qNum === 1 ? data.explanation1 : data.explanation2) : "Incorrect choice. Evaluate the key definition and try again.";
+            expDiv.classList.remove('hidden');
+
+            // Force visual re-render of options class
+            data[qNum === 1 ? 'options1' : 'options2'].forEach((_, idx) => {
+                const btn = document.getElementById(`btn-q${qNum}-${idx}`);
+                btn.className = `p-3 text-xs text-left border rounded-lg hover:border-brand-green font-semibold transition-all duration-150 ${getLabOptionClass(qNum, idx)}`;
+            });
+
+            // If question 1 was answered correctly, automatically slide open Question 2 segment
+            if (qNum === 1 && isCorrect) {
+                const q2Sec = document.getElementById('q2-section');
+                q2Sec.classList.remove('hidden');
+            }
+        }
+
+        function restoreLabState() {
+            const data = LAB_SCENARIOS[selectedLabIdx];
+            const q1StateKey = `${selectedLabIdx}-q1`;
+            const q2StateKey = `${selectedLabIdx}-q2`;
+
+            if (userLabAnswers[q1StateKey] !== undefined) {
+                submitLabAnswer(1, userLabAnswers[q1StateKey]);
+            }
+            if (userLabAnswers[q2StateKey] !== undefined) {
+                submitLabAnswer(2, userLabAnswers[q2StateKey]);
+            }
+        }
+
+        // Setup Init states
+        window.onload = function() {
+            renderSlide();
+        };
+    </script>
+</body>
+</html>
